@@ -1,5 +1,9 @@
 #!/bin/bash
 
+# 1. REQUIRED: create file 'passfile.txt'
+# 2. put gpg password in passfile.txt
+# 3. run this scripts
+
 # - encrypt a file
 #	> gpg -a -e -u '<user>' -r '<user>' <file> 
  
