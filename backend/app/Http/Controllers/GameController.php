@@ -54,7 +54,6 @@ class GameController extends Controller
                 $orderByField = 'priority';
                 $orderByValue = 'ASC';
                 $priorityOperand = '>=';
-                $priority = $priorityParam;
                 break;
             case 'updated-at-asc':
                 $orderByField = 'updated_at';
