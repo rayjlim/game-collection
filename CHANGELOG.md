@@ -2,6 +2,15 @@
 
 All notable changes to this project will be documented in this file. See [standard-version](https://github.com/conventional-changelog/standard-version) for commit guidelines.
 
+### [1.6.1](https://github.com/rayjlim/game-collection/compare/v1.6.0...v1.6.1) (2024-12-27)
+
+
+### Bug Fixes
+
+* [#34](https://github.com/rayjlim/game-collection/issues/34) check genre exists ([9808ada](https://github.com/rayjlim/game-collection/commit/9808ada036cefb025db01d76aef76c12aa2a6310))
+* [#41](https://github.com/rayjlim/game-collection/issues/41) size limits defined in constants ([f8d5587](https://github.com/rayjlim/game-collection/commit/f8d558727afb9b6d83c390884e99a418ee817500))
+* default class for size ([7726cec](https://github.com/rayjlim/game-collection/commit/7726cecb84f5b548c5f4d0688970fec2447b82ef))
+
 ## [1.6.0](https://github.com/rayjlim/game-collection/compare/v1.5.1...v1.6.0) (2024-12-27)
 
 
