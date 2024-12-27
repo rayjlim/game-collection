@@ -8,7 +8,8 @@ import PnForm from '../components/PnForm';
 import './GamesListPage.css';
 import pkg from '../../package.json';
 
-const searchTtags = ['<untagged>', 'to-download', 'to-install', 'installed', 'pink-paw', 'tried', 'to-review', 'skip', 'dl-high'];
+const searchTags = ['<untagged>', 'to-download', 'to-install',
+  'installed', 'pink-paw', 'tried', 'to-review', 'skip', 'dl-high'];
 
 const GamesListPage = () => {
   const searchForm = useRef();
@@ -64,8 +65,8 @@ const GamesListPage = () => {
               }}
             >
               <option value="">-</option>
-              {searchTtags.map(tag => (
-                <option value={tag}>{tag}</option>
+              {searchTags.map(tag => (
+                <option value={tag} key={tag}>{tag}</option>
               ))}
             </select>
           </label>
@@ -93,7 +94,7 @@ const GamesListPage = () => {
           </label>
         </form>
         {letters.map(letter => (
-          <button type="button" onClick={() => searchLetter(letter)} className="letter">{letter}</button>
+          <button key={letter} type="button" onClick={() => searchLetter(letter)} className="letter">{letter}</button>
         ))}
       </div>
       <PaginationBar pageCount={pageMeta.last_page} pageChange={handlePageClick} />
