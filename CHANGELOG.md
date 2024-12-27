@@ -2,6 +2,15 @@
 
 All notable changes to this project will be documented in this file. See [standard-version](https://github.com/conventional-changelog/standard-version) for commit guidelines.
 
+### [1.5.1](https://github.com/rayjlim/game-collection/compare/v1.5.0...v1.5.1) (2024-12-27)
+
+
+### Bug Fixes
+
+* article date parser format error ([acf42ea](https://github.com/rayjlim/game-collection/commit/acf42eafcf63db4d1f0a0893f2e4445343008a01))
+* update test for date format ([ed967bd](https://github.com/rayjlim/game-collection/commit/ed967bd904b7df3e40bf1a970d767636e67d1c0f))
+* wrong param for priority used ([b80c7f9](https://github.com/rayjlim/game-collection/commit/b80c7f9cad5486f2370ee1f9eeff72b74f2299de))
+
 ## [1.5.0](https://github.com/rayjlim/game-collection/compare/v1.4.0...v1.5.0) (2024-04-29)
 
 
