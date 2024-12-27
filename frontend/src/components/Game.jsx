@@ -68,9 +68,13 @@ const Game = ({ game }) => {
           </span>
         </div>
         <div>
-          <span>
-            {`Genre: ${current.genre}`}
-          </span>
+          {current.genre
+            && (
+              <span>
+                {`Genre: ${current.genre}`}
+              </span>
+            )}
+
           <span className={sizeClassName}>
             {` Size: ${current.size_calculated}`}
           </span>
