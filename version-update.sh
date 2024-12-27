@@ -1,7 +1,7 @@
 #!/bin/bash
 npx standard-version
 cd backend
-composer update
+composer.bat update
 git add composer.lock
 git commit -m "sync up composer.lock"
 branch_name=$(git rev-parse --abbrev-ref HEAD)

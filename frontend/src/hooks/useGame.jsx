@@ -1,4 +1,4 @@
-import { useState } from 'react';
+import { useEffect, useState } from 'react';
 import { toast } from 'react-toastify';
 import { REST_ENDPOINT } from '../constants';
 
@@ -71,6 +71,20 @@ export default function useGame(game, formRef) {
       tagsInput.value = tagsInput.value.replace(content, '').trim();
     }
   }
+
+  function checkKeyPressed(e) {
+    // console.log(`useGame: handle key presss ${e.key}`);
+    if (e.altKey && e.key === 's') {
+      console.log('save');
+      document.getElementById('saveBtn')?.click();
+    }
+  }
+
+  useEffect(() => {
+    document.addEventListener('keydown', checkKeyPressed);
+    return () => document.removeEventListener('keydown', checkKeyPressed);
+  }, []);
+
   return {
     saveGame,
     addRemoveTag,

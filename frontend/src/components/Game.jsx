@@ -54,6 +54,7 @@ const Game = ({ game }) => {
       <div className={mainClassName}>
         <div className="manual" style={{ margin: '.2rem' }}>
           <button
+            id="editBtn"
             onClick={() => setIsEditing(!isEditing)}
             type="button"
             style={{ margin: '0 .2rem' }}
@@ -140,7 +141,7 @@ const Game = ({ game }) => {
               {/* {current.replayability}
             {current.issues}
             {current.summary} */}
-              <button type="submit" className="saveBtn">Save</button>
+              <button type="submit" className="saveBtn" id="saveBtn">Save</button>
             </form>
           </div>
         ) : (
