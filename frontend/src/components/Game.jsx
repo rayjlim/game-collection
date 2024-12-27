@@ -1,8 +1,7 @@
-import React, { useState, useRef } from 'react';
+import React, { useRef } from 'react';
 import PropTypes from 'prop-types';
 import { parse, format } from 'date-fns';
-import { toast } from 'react-toastify';
-import { REST_ENDPOINT } from '../constants';
+import useGame from '../hooks/useGame';
 
 import './Game.css';
 
@@ -10,77 +9,17 @@ const tagsSet = ['to-download', 'to-install', 'installed', 'pink-paw', 'tried', 
 
 const Game = ({ game }) => {
   const formRef = useRef();
-  const [current, setCurrent] = useState(game);
 
-  const [isEditing, setIsEditing] = useState(false);
+  const {
+    saveGame,
+    addRemoveTag,
+    current,
+    isEditing,
+    setIsEditing,
+  } = useGame(game, formRef);
+
   function externalLink(url) {
     window.open(url, '_blank');
-  }
-
-  async function saveGame(event) {
-    console.log('save game');
-    event.preventDefault();
-    const formData = new FormData(formRef.current);
-    const priority = formData.get('priority');
-    const platform = formData.get('platform');
-    const status = formData.get('status');
-    const graphicStyle = formData.get('graphicStyle');
-    const tags = formData.get('tags');
-    const thoughts = formData.get('thoughts');
-    const playniteTitle = formData.get('playniteTitle');
-    if (priority === '') {
-      toast.error('Missing Priority value');
-      return;
-    }
-    const endpoint = `${REST_ENDPOINT}/api/games/${game.id}`;
-    const config = {
-      method: 'POST',
-      body: JSON.stringify({
-        priority,
-        platform,
-        status,
-        graphic_style: graphicStyle,
-        tags,
-        thoughts,
-        playnite_title: playniteTitle,
-      }),
-    };
-    try {
-      const response = await fetch(endpoint, config);
-      console.log('response :', response);
-      if (!response.ok) {
-        console.log('response.status :', response.status);
-        throw new Error(response.status);
-      } else {
-        const data = await response.json();
-        console.log('data :', data);
-        setCurrent({
-          ...current,
-          priority,
-          platform,
-          status,
-          graphic_style: graphicStyle,
-          tags,
-          thoughts,
-          playnite_title: playniteTitle,
-        });
-        setIsEditing(false);
-      }
-    } catch (err) {
-      console.log(`Error: ${err}`);
-      toast.error(`loading error : ${err}`);
-    }
-  }
-
-  function addRemoveTag(content) {
-    console.log('addRemove', content);
-
-    const tagsInput = formRef.current.querySelector('input[name="tags"]');
-    if (!tagsInput.value.includes(content)) {
-      tagsInput.value = `${tagsInput.value} ${content}`;
-    } else {
-      tagsInput.value = tagsInput.value.replace(content, '').trim();
-    }
   }
 
   let mainClassName = 'game-list-row';
@@ -157,6 +96,7 @@ const Game = ({ game }) => {
                 Priority:
                 <input name="priority" defaultValue={current.priority} />
               </label>
+
               <label htmlFor="platform">
                 Platform:
                 <input name="platform" defaultValue={current.platform} />
@@ -237,13 +177,6 @@ const Game = ({ game }) => {
           {current.summary} */}
           </>
         )}
-
-        {/*
-        {current.size}
-        {current.created_at}
-        {current.updated_at}
-
-        */}
       </div>
     </section>
   );
