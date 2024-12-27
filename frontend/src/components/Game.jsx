@@ -2,6 +2,7 @@ import React, { useRef } from 'react';
 import PropTypes from 'prop-types';
 import { parse, format } from 'date-fns';
 import useGame from '../hooks/useGame';
+import { LARGE_GAME_SIZE, MEDIUM_GAME_SIZE } from '../constants';
 
 import './Game.css';
 
@@ -22,13 +23,13 @@ const Game = ({ game }) => {
     window.open(url, '_blank');
   }
 
-  let mainClassName = 'game-list-row';
+  let sizeClassName = '';
   switch (true) {
-    case current.size_calculated > 20:
-      mainClassName = `${mainClassName} large-size`;
+    case current.size_calculated > LARGE_GAME_SIZE:
+      sizeClassName = 'large-size';
       break;
-    case current.size_calculated > 10:
-      mainClassName = `${mainClassName} medium-size`;
+    case current.size_calculated > MEDIUM_GAME_SIZE:
+      sizeClassName = 'medium-size';
       break;
     default:
       console.log('');
@@ -51,7 +52,7 @@ const Game = ({ game }) => {
         onClick={() => externalLink(current.fg_url)}
         aria-hidden="true"
       />
-      <div className={mainClassName}>
+      <div className={`game-list-row ${sizeClassName}`}>
         <div className="manual" style={{ margin: '.2rem' }}>
           <button
             id="editBtn"
@@ -70,7 +71,7 @@ const Game = ({ game }) => {
           <span>
             {`Genre: ${current.genre}`}
           </span>
-          <span className={current.size_calculated > 20 ? 'game-size-large' : ''}>
+          <span className={sizeClassName}>
             {` Size: ${current.size_calculated}`}
           </span>
           <span>
