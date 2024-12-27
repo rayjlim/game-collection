@@ -32,7 +32,7 @@ const Game = ({ game }) => {
       sizeClassName = 'medium-size';
       break;
     default:
-      console.log('');
+      sizeClassName = 'small-size';
   }
 
   return (
@@ -118,7 +118,7 @@ const Game = ({ game }) => {
                 Tags:
                 <input name="tags" defaultValue={current.tags} />
                 {tagsSet.map(tag => (
-                  <button type="button" onClick={() => addRemoveTag(tag)} className="tagBtn">
+                  <button key={tag} type="button" onClick={() => addRemoveTag(tag)} className="tagBtn">
                     {tag}
                   </button>
                 ))}
