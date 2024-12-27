@@ -2,6 +2,13 @@
 
 All notable changes to this project will be documented in this file. See [standard-version](https://github.com/conventional-changelog/standard-version) for commit guidelines.
 
+## [1.6.0](https://github.com/rayjlim/game-collection/compare/v1.5.1...v1.6.0) (2024-12-27)
+
+
+### Features
+
+* alt+s for save button ([5ec2fdf](https://github.com/rayjlim/game-collection/commit/5ec2fdf20de94415a51f08de1b21598e2e2676cf))
+
 ### [1.5.1](https://github.com/rayjlim/game-collection/compare/v1.5.0...v1.5.1) (2024-12-27)
 
 
