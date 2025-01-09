@@ -2,6 +2,13 @@
 
 All notable changes to this project will be documented in this file. See [standard-version](https://github.com/conventional-changelog/standard-version) for commit guidelines.
 
+### [1.7.1](https://github.com/rayjlim/game-collection/compare/v1.7.0...v1.7.1) (2025-01-09)
+
+
+### Bug Fixes
+
+* [#11](https://github.com/rayjlim/game-collection/issues/11) parse issue when title in span and not strong ([95e4ba5](https://github.com/rayjlim/game-collection/commit/95e4ba527b1465f907efe2497b7687f6946d883d))
+
 ## [1.7.0](https://github.com/rayjlim/game-collection/compare/v1.6.1...v1.7.0) (2025-01-09)
 
 
