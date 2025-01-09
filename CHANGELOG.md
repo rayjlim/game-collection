@@ -2,6 +2,19 @@
 
 All notable changes to this project will be documented in this file. See [standard-version](https://github.com/conventional-changelog/standard-version) for commit guidelines.
 
+## [1.7.0](https://github.com/rayjlim/game-collection/compare/v1.6.1...v1.7.0) (2025-01-09)
+
+
+### Features
+
+* 🏷️ search by genre ([ae9ac8a](https://github.com/rayjlim/game-collection/commit/ae9ac8a96b900a55759917f3e3b3088a3e58067f))
+
+
+### Bug Fixes
+
+* [#15](https://github.com/rayjlim/game-collection/issues/15) remove summary, issues, replayability ([1d29c23](https://github.com/rayjlim/game-collection/commit/1d29c23754823c797f7822ef0b49e23a9360e763))
+* eol to LF ([facf217](https://github.com/rayjlim/game-collection/commit/facf217d5113ee0ffce9409bb5a56ac830289f1c))
+
 ### [1.6.1](https://github.com/rayjlim/game-collection/compare/v1.6.0...v1.6.1) (2024-12-27)
 
 
