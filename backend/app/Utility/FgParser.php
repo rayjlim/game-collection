@@ -71,9 +71,6 @@ class FgParser
 
         $game->fg_url = $entryDateNodes[0]->getElementsByTagName("a")[0]->getattribute("href");
 
-
-        // $game->fg_summary
-
         return $game;
     }
 

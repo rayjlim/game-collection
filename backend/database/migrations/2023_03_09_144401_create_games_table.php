@@ -21,14 +21,11 @@ class CreateGamesTable extends Migration
             $table->string('size', 100)->nullable();
             $table->date('last_checked_at')->nullable();
             $table->string('status', 50)->nullable();
-            $table->text('summary')->nullable();
             $table->text('thoughts')->nullable();
-            $table->string('issues')->nullable();
 
             $table->string('platform')->nullable(); // pc, gamecube, wii, etc.
             $table->string('image')->nullable();
             $table->string('graphic_style')->nullable();
-            $table->string('replayability')->nullable();
             $table->integer('priority')->nullable();
             $table->text('tags')->nullable();  // will use space delimited
 

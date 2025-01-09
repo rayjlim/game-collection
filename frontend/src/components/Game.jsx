@@ -143,9 +143,6 @@ const Game = ({ game }) => {
                 Playnite Title:
                 <input name="playniteTitle" defaultValue={current.playnite_title} />
               </label>
-              {/* {current.replayability}
-            {current.issues}
-            {current.summary} */}
               <button type="submit" className="saveBtn" id="saveBtn">Save</button>
             </form>
           </div>
@@ -178,9 +175,6 @@ const Game = ({ game }) => {
                 {current.playnite_last !== '' && `, ${current.playnite_last}, ${current.playnite_added}, ${current.playnite_playtime}`}
               </div>
             )}
-            {/* {current.replayability}
-          {current.issues}
-          {current.summary} */}
           </>
         )}
       </div>

@@ -24,9 +24,7 @@ class Game extends Model
         'size',
         'size_calculated',
         'status',
-        'summary',
         'thoughts',
-        'issues',
         'fg_article_date',
         'image',
         'fg_url',
@@ -39,7 +37,6 @@ class Game extends Model
 
     // 'platform',
     // 'graphic_style',
-    // 'replayability',
     // 'priority',
     // 'tags',
 }
