@@ -26,6 +26,9 @@ $router->group(['prefix' => 'api/'], function () use ($router) {
     // $router->patch('games/{id}', 'GameController@update');
     $router->delete('games/{id}', 'GameController@destroy');
     $router->get('removeDuplicates', 'GameController@removeDuplicates');
+    $router->get('genres', 'GameController@getGenres');
+    $router->get('tags', 'GameController@getTags');
+
 
     $router->post('parser/', 'ParserController@store');
     $router->post('playnite/', 'ParserController@playnite');

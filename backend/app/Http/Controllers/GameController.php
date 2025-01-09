@@ -35,6 +35,10 @@ class GameController extends Controller
         $searchTags = $request->input('tags') == "<untagged>"
             ? ""
             : '%' . $request->input('tags') . '%';
+        $searchGenres = $request->input('genres') == "<untagged>"
+            ? ""
+            : '%' . $request->input('genres') . '%';
+
         $priorityParam = $request->input('priority');
         $priority = $priorityParam && is_numeric($priorityParam)
             ? $priorityParam
@@ -68,14 +72,21 @@ class GameController extends Controller
                 $orderByValue = 'DESC';
         }
 
-        $games = Game::where('title', 'LIKE', $searchTitle)
-            ->where('tags', 'LIKE', $searchTags)
-            ->where('size_calculated', '>=', $sizeMin)
-            ->where('size_calculated', '<=', $sizeMax)
-            ->where('priority', $priorityOperand, $priority)
-            ->orderBy($orderByField, $orderByValue)
-            ->paginate($pageSize);
+        $query = Game::where('title', 'LIKE', $searchTitle);
+        if ($request->has('tags')) {
+            $query->where('tags', 'LIKE', $searchTags);
+        }
 
+        if ($request->has('genres')) {
+            $query->whereRaw('BINARY genre LIKE ?', [$searchGenres]);
+            // $query->where('genre', 'LIKE', $searchGenres);
+        }
+        $query->where('size_calculated', '>=', $sizeMin);
+        $query->where('size_calculated', '<=', $sizeMax);
+        $query->where('priority', $priorityOperand, $priority);
+        $query->orderBy($orderByField, $orderByValue);
+        // echo $query->toSql();
+        $games = $query->paginate($pageSize);
         return $games;
     }
 
@@ -149,6 +160,7 @@ class GameController extends Controller
         $game->platform = $formData->platform;
         $game->status = $formData->status;
         $game->graphic_style = $formData->graphic_style;
+
         $game->tags = $formData->tags;
         $game->thoughts = $formData->thoughts;
         $game->playnite_title = $formData->playnite_title;
@@ -192,5 +204,47 @@ class GameController extends Controller
             t1.id > t2.id AND
             t1.fg_url = t2.fg_url;');
         return $affected;
+    }
+
+    /**
+     * getGenres
+     *
+     * @param  \Illuminate\Http\Request  $request
+     * @return array response status data
+     */
+    public function getGenres(Request $request): string
+    {
+        $affected = DB::connection('mysql')->select('
+        select distinct genre FROM gc_games;');
+        // return $affected;
+        $allItems = [];
+        foreach ($affected as $row) {
+            $allItems = array_merge($allItems, explode(", ", $row->genre));
+        }
+
+        // Step 2: Get unique items
+        $uniqueItems = array_unique($allItems);
+        return json_encode($uniqueItems);
+    }
+    /**
+     * getTags
+     *
+     * @param  \Illuminate\Http\Request  $request
+     * @return array response status data
+     */
+    public function getTags(Request $request): string
+    {
+        $affected = DB::connection('mysql')->select('
+        select distinct tags FROM gc_games;');
+        // return $affected;
+        $allItems = [];
+        foreach ($affected as $row) {
+            $allItems = array_merge($allItems, explode(" ", $row->tags));
+        }
+
+        // Step 2: Get unique items
+        $uniqueItems = array_unique($allItems);
+        // print_r($uniqueItems);
+        return json_encode($uniqueItems);
     }
 }
