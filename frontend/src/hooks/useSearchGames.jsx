@@ -12,6 +12,7 @@ export default function useSearchGames(searchForm) {
     event?.preventDefault();
     const formData = new FormData(searchForm.current);
     const searchTitle = formData.get('searchTitle');
+    const genres = formData.get('genres');
     const tags = formData.get('tags');
     const sizeMin = formData.get('sizeMin');
     const sizeMax = formData.get('sizeMax');
@@ -23,6 +24,9 @@ export default function useSearchGames(searchForm) {
     let searchFields = '';
     if (searchTitle !== '') {
       searchFields += `&search_title=${searchTitle}`;
+    }
+    if (genres !== '') {
+      searchFields += `&genres=${genres}`;
     }
     if (tags !== '') {
       searchFields += `&tags=${tags}`;

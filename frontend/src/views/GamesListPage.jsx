@@ -11,10 +11,14 @@ import pkg from '../../package.json';
 const searchTags = ['<untagged>', 'to-download', 'to-install',
   'installed', 'pink-paw', 'tried', 'to-review', 'skip', 'dl-high'];
 
+const searchGenres = ['<untagged>', 'Adventure', 'Survival',
+  'Puzzle', 'Managerial', 'RTS', 'Interactive movie', 'Shooter', 'Action'];
+
 const GamesListPage = () => {
   const searchForm = useRef();
 
   const formTagChoices = useRef();
+  const formGenresChoices = useRef();
 
   const {
     loadGames,
@@ -54,6 +58,22 @@ const GamesListPage = () => {
           </label>
           <button type="submit">Search</button>
           <button type="button" onClick={() => clearFields()}>Clear</button>
+          <label htmlFor="genres" className="searchField">
+            Genre:
+            <input name="genres" type="text" />
+            <select
+              ref={formGenresChoices}
+              onChange={() => {
+                const genresInput = searchForm.current.querySelector('input[name="genres"]');
+                genresInput.value = formGenresChoices.current.value;
+              }}
+            >
+              <option value="">-</option>
+              {searchGenres.map(tag => (
+                <option value={tag} key={tag}>{tag}</option>
+              ))}
+            </select>
+          </label>
           <label htmlFor="tags" className="searchField">
             Tag:
             <input name="tags" type="text" />
