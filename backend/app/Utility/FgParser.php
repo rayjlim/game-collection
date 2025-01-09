@@ -45,9 +45,26 @@ class FgParser
 
         $game->fg_id = is_numeric($parsed) ? $parsed : -1;
 
-        $titleNodes = $h3Nodes[0]->getElementsByTagName("strong");
-        $parsed = $titleNodes[0]->textContent;
-        $game->title = $parsed;
+        // Get the next sibling node
+$nextSibling = $fgIdNodes[0]->nextSibling;
+// Loop through the siblings to find the next element (skip text nodes)
+while ($nextSibling && $nextSibling->nodeType != XML_ELEMENT_NODE) {
+    $nextSibling = $nextSibling->nextSibling;
+}
+
+
+        if ($nextSibling && $nextSibling->nodeName === 'span') {
+            // echo 'The next sibling is a <span> element.';
+            $parsed = $nextSibling->textContent;
+            $game->title = trim($parsed);
+        } else {
+            // echo 'The next sibling is not a <span> element.';
+            $titleNodes = $h3Nodes[0]->getElementsByTagName("strong");
+            $parsed = $titleNodes[0]->textContent;
+            $game->title = $parsed;
+        }
+
+
 
         $entryNode = $this->byClass($dom, "div", "entry-content");
         $pNodes = $entryNode[0]->getElementsByTagName("p");

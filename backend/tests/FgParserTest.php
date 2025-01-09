@@ -104,6 +104,19 @@ class FgParserTest extends TestCase
         $this->assertEquals("Akumi Wars", $game->title);
     }
 
+    public function test_parse_item1_page3_halo(){
+        // test when fg id has special characters
+        $fullfilename =  getcwd() . "/tests/fitgirl_page3.html";
+        $readtext = file_get_contents($fullfilename,"r");
+        $parser = new FgParser();
+        $parser->parse($readtext);
+        $game = $parser->getInfo(0);
+
+        $this->assertEquals(1291, $game->fg_id);
+        $this->assertEquals("Halo: The Master Chief Collection – Complete Edition (All 6 games)", $game->title);
+
+    }
+
     public function test_convertSizeString_item0(){
 
         $this->assertEquals(".707", FgParser::convertSizeString("707 MB"));
