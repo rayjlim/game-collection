@@ -2,6 +2,13 @@
 
 All notable changes to this project will be documented in this file. See [standard-version](https://github.com/conventional-changelog/standard-version) for commit guidelines.
 
+## [1.9.0](https://github.com/rayjlim/game-collection/compare/v1.8.1...v1.9.0) (2025-02-12)
+
+
+### Features
+
+* [#39](https://github.com/rayjlim/game-collection/issues/39) queries for erroneous tags ([0086920](https://github.com/rayjlim/game-collection/commit/00869203bf318cbcea454934a325ec2096e03bce))
+
 ### [1.8.1](https://github.com/rayjlim/game-collection/compare/v1.8.0...v1.8.1) (2025-02-12)
 
 
