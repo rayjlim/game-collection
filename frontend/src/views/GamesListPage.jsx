@@ -4,12 +4,13 @@ import useSearchGames from '../hooks/useSearchGames';
 import GameListItems from '../components/GameListItems';
 import PaginationBar from '../components/PaginationBar';
 import PnForm from '../components/PnForm';
+import TagList from '../components/TagList';
+import { TAG_SET } from '../constants';
 
 import './GamesListPage.css';
 import pkg from '../../package.json';
 
-const searchTags = ['<untagged>', 'to-download', 'to-install',
-  'installed', 'pink-paw', 'tried', 'to-review', 'skip', 'dl-high'];
+const searchTags = [{ label: '<untagged>' }, ...TAG_SET];
 
 const searchGenres = ['<untagged>', 'Adventure', 'Survival',
   'Puzzle', 'Managerial', 'RTS', 'Interactive movie', 'Shooter', 'Action'];
@@ -86,7 +87,7 @@ const GamesListPage = () => {
             >
               <option value="">-</option>
               {searchTags.map(tag => (
-                <option value={tag} key={tag}>{tag}</option>
+                <option value={tag.label} key={tag.label}>{tag.label}</option>
               ))}
             </select>
           </label>
@@ -134,6 +135,7 @@ const GamesListPage = () => {
 
       <button type="button" onClick={() => removeDuplicates()}>Remove Duplicates</button>
       <PnForm />
+      <TagList />
       <div>{`version ${pkg.version}`}</div>
     </>
   );

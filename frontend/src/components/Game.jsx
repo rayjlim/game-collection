@@ -2,11 +2,9 @@ import React, { useRef } from 'react';
 import PropTypes from 'prop-types';
 import { parse, format } from 'date-fns';
 import useGame from '../hooks/useGame';
-import { LARGE_GAME_SIZE, MEDIUM_GAME_SIZE } from '../constants';
+import { LARGE_GAME_SIZE, MEDIUM_GAME_SIZE, TAG_SET } from '../constants';
 
 import './Game.css';
-
-const tagsSet = ['to-download', 'to-install', 'installed', 'pink-paw', 'tried', 'to-review', 'skip', 'dl-high', 'finished'];
 
 const Game = ({ game }) => {
   const formRef = useRef();
@@ -33,6 +31,12 @@ const Game = ({ game }) => {
       break;
     default:
       sizeClassName = 'small-size';
+  }
+  const displayTags = current.tags.trim() ? current.tags.trim().split(/\s+/) : [];
+
+  function getColorByLabel(label) {
+    const tag = TAG_SET.find(item => item.label === label);
+    return tag ? tag.color : null; // Return null if label is not found
   }
 
   return (
@@ -121,9 +125,9 @@ const Game = ({ game }) => {
               <label htmlFor="tags">
                 Tags:
                 <input name="tags" defaultValue={current.tags} />
-                {tagsSet.map(tag => (
-                  <button key={tag} type="button" onClick={() => addRemoveTag(tag)} className="tagBtn">
-                    {tag}
+                {TAG_SET.map(tag => (
+                  <button key={tag.label} type="button" onClick={() => addRemoveTag(tag.label)} className="tagBtn">
+                    {tag.label}
                   </button>
                 ))}
               </label>
@@ -166,7 +170,13 @@ const Game = ({ game }) => {
                   </span>
                 )}
                 {`, Platform: ${current.platform} Status: ${current.status} Graphic style: ${current.graphic_style}, `}
-                {`Tags: ${current.tags} Thoughts: ${current.thoughts}`}
+                Tags:
+                {displayTags.length}
+                {displayTags.length && (
+                  displayTags.map(tag => <span key={tag} style={{ color: getColorByLabel(tag) }} className="tag-chip">{tag}</span>)
+                )}
+                <br />
+                {`Thoughts: ${current.thoughts}`}
               </span>
             </div>
             {current.playnite_title !== '' && (

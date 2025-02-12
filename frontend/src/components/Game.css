@@ -45,3 +45,10 @@
     border-radius: 8px;
     color: white;
 }
+
+.tag-chip {
+  margin: 0 .25rem;
+  border: 1px solid;
+  border-radius: 10px;
+  padding: 2px;
+}
