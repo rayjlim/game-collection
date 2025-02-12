@@ -117,12 +117,14 @@ export default function useSearchGames(searchForm) {
     await loadGames();
   };
   const clearFields = async () => {
-    const searchTitle = searchForm.current.querySelector('input[name="searchTitle"]');
-    searchTitle.value = '';
-    const startsWith = searchForm.current.querySelector('input[name="startsWith"]');
-    startsWith.value = '';
-    const orderBy = searchForm.current.querySelector('select[name="orderBy"]');
-    orderBy.value = '';
+    const form = searchForm.current;
+    const fields = form.querySelectorAll('input[name], select[name]');
+
+    [...fields].forEach(field => {
+      // eslint-disable-next-line no-param-reassign
+      field.value = '';
+    });
+
     setPage(1);
     await loadGames();
   };

@@ -50,70 +50,73 @@ const GamesListPage = () => {
     <>
       <h1>Game Collection</h1>
       {isLoading && <h2>LOADING</h2>}
+
+      <form ref={searchForm} onSubmit={loadGames}>
+        <input name="startsWith" type="hidden" />
+        <label htmlFor="searchTitle" className="searchField">
+          Search Title:
+          <input name="searchTitle" type="text" onChange={changeTitle} />
+        </label>
+        <button type="submit">Search</button>
+        <button type="button" onClick={() => clearFields()}>Clear</button>
+        <label htmlFor="genres" className="searchField">
+          Genre:
+          <input name="genres" type="text" />
+          <select
+            ref={formGenresChoices}
+            onChange={() => {
+              const genresInput = searchForm.current.querySelector('input[name="genres"]');
+              genresInput.value = formGenresChoices.current.value;
+            }}
+          >
+            <option value="">-</option>
+            {searchGenres.map(tag => (
+              <option value={tag} key={tag}>{tag}</option>
+            ))}
+          </select>
+        </label>
+        <label htmlFor="tags" className="searchField">
+          Tag:
+          <input name="tags" type="text" />
+          <select
+            ref={formTagChoices}
+            onChange={() => {
+              const tagsInput = searchForm.current.querySelector('input[name="tags"]');
+              tagsInput.value = formTagChoices.current.value;
+              const orderSelect = searchForm.current.querySelector('select[name="orderBy"]');
+              orderSelect.value = 'priority';
+            }}
+          >
+            <option value="">-</option>
+            {searchTags.map(tag => (
+              <option value={tag.label} key={tag.label}>{tag.label}</option>
+            ))}
+          </select>
+        </label>
+        <label htmlFor="priority" className="searchField">
+          Priority:
+          <input name="priority" type="text" size="4" />
+        </label>
+        <label htmlFor="sizeMin" className="searchField">
+          Size Min:
+          <input name="sizeMin" type="text" size="5" />
+        </label>
+        <label htmlFor="sizeMax" className="searchField">
+          Size Max:
+          <input name="sizeMax" type="text" size="5" />
+        </label>
+        <label htmlFor="orderBy" className="searchField">
+          Order By:
+          <select name="orderBy">
+            <option value="">Updated At</option>
+            <option value="fg_article_date">Article Date</option>
+            <option value="updated-at-asc">Updated At -  Asc</option>
+            <option value="priority">Priority</option>
+            <option value="title">Title</option>
+          </select>
+        </label>
+      </form>
       <div>
-        <form ref={searchForm} onSubmit={loadGames}>
-          <input name="startsWith" type="hidden" />
-          <label htmlFor="searchTitle" className="searchField">
-            Search Title:
-            <input name="searchTitle" type="text" onChange={changeTitle} />
-          </label>
-          <button type="submit">Search</button>
-          <button type="button" onClick={() => clearFields()}>Clear</button>
-          <label htmlFor="genres" className="searchField">
-            Genre:
-            <input name="genres" type="text" />
-            <select
-              ref={formGenresChoices}
-              onChange={() => {
-                const genresInput = searchForm.current.querySelector('input[name="genres"]');
-                genresInput.value = formGenresChoices.current.value;
-              }}
-            >
-              <option value="">-</option>
-              {searchGenres.map(tag => (
-                <option value={tag} key={tag}>{tag}</option>
-              ))}
-            </select>
-          </label>
-          <label htmlFor="tags" className="searchField">
-            Tag:
-            <input name="tags" type="text" />
-            <select
-              ref={formTagChoices}
-              onChange={() => {
-                const tagsInput = searchForm.current.querySelector('input[name="tags"]');
-                tagsInput.value = formTagChoices.current.value;
-              }}
-            >
-              <option value="">-</option>
-              {searchTags.map(tag => (
-                <option value={tag.label} key={tag.label}>{tag.label}</option>
-              ))}
-            </select>
-          </label>
-          <label htmlFor="priority" className="searchField">
-            Priority:
-            <input name="priority" type="text" size="4" />
-          </label>
-          <label htmlFor="sizeMin" className="searchField">
-            Size Min:
-            <input name="sizeMin" type="text" size="5" />
-          </label>
-          <label htmlFor="sizeMax" className="searchField">
-            Size Max:
-            <input name="sizeMax" type="text" size="5" />
-          </label>
-          <label htmlFor="orderBy" className="searchField">
-            Order By:
-            <select name="orderBy">
-              <option value="">Updated At</option>
-              <option value="fg_article_date">Article Date</option>
-              <option value="updated-at-asc">Updated At -  Asc</option>
-              <option value="priority">Priority</option>
-              <option value="title">Title</option>
-            </select>
-          </label>
-        </form>
         {letters.map(letter => (
           <button key={letter} type="button" onClick={() => searchLetter(letter)} className="letter">{letter}</button>
         ))}
@@ -121,10 +124,7 @@ const GamesListPage = () => {
       <PaginationBar pageCount={pageMeta.last_page} pageChange={handlePageClick} />
 
       <div>
-        page:
-        {pageMeta.current_page}
-        total:
-        {pageMeta.total}
+        {`page: ${pageMeta.current_page} total: ${pageMeta.total}`}
       </div>
       {!isLoading && (
         <GameListItems
