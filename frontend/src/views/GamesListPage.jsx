@@ -115,6 +115,29 @@ const GamesListPage = () => {
             <option value="title">Title</option>
           </select>
         </label>
+        <div>
+          Missing:
+          <label htmlFor="missedInstalled" className="searchField" title="Priority<50 and not tagged I installed">
+            Installed:
+            <input name="missedInstalled" type="checkbox" />
+          </label>
+          <label htmlFor="missedToInstall" className="searchField" title="Priority 50 - 80 and not to-install">
+            To-Install:
+            <input name="missedToInstall" type="checkbox" />
+          </label>
+          <label htmlFor="missedToDownload" className="searchField" title="Priority 80 - 100 and not to-download">
+            To-Download:
+            <input name="missedToDownload" type="checkbox" />
+          </label>
+          <label htmlFor="missedTried" className="searchField" title="Priority 200 - 300 and not tried">
+            Tried:
+            <input name="missedTried" type="checkbox" />
+          </label>
+          <label htmlFor="missedPriority" className="searchField" title="tagged (to-download, to-install, installed) and no priority">
+            Priority:
+            <input name="missedPriority" type="checkbox" />
+          </label>
+        </div>
       </form>
       <div>
         {letters.map(letter => (

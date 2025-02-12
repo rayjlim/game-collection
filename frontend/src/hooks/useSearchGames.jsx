@@ -10,69 +10,45 @@ export default function useSearchGames(searchForm) {
   async function loadGames(event) {
     console.log(event);
     event?.preventDefault();
+
     const formData = new FormData(searchForm.current);
-    const searchTitle = formData.get('searchTitle');
-    const genres = formData.get('genres');
-    const tags = formData.get('tags');
-    const sizeMin = formData.get('sizeMin');
-    const sizeMax = formData.get('sizeMax');
-    const orderBy = formData.get('orderBy');
-    const startsWith = formData.get('startsWith');
-    const priority = formData.get('priority');
+    const formValues = Object.fromEntries(formData); // Extracts all form values at once
 
     const endpoint = `${REST_ENDPOINT}/api/games/?page=${page}`;
-    let searchFields = '';
-    if (searchTitle !== '') {
-      searchFields += `&search_title=${searchTitle}`;
-    }
-    if (genres !== '') {
-      searchFields += `&genres=${genres}`;
-    }
-    if (tags !== '') {
-      searchFields += `&tags=${tags}`;
-    }
-    if (sizeMin !== '') {
-      searchFields += `&size_min=${sizeMin}`;
-    }
-    if (sizeMax !== '') {
-      searchFields += `&size_max=${sizeMax}`;
-    }
-    if (orderBy !== '') {
-      searchFields += `&order_by=${orderBy}`;
-    }
-    if (startsWith !== '') {
-      searchFields += `&starts_with=${startsWith}`;
-    }
-    if (priority !== '') {
-      searchFields += `&priority=${priority}`;
-    }
+
+    // Build query string dynamically, filtering out empty values
+
+    const searchFields = Object.entries(formValues)
+      // eslint-disable-next-line no-unused-vars
+      .filter(([_, value]) => value.trim() !== '')
+      .map(([key, value]) => `&${key.replace(/_/g, '-')}=${encodeURIComponent(value)}`)
+      .join('');
+
     setIsLoading(true);
-    // TODO: if production, then pass mode: 'no-cors', in fetch options
 
     try {
-      const response = await fetch(`${endpoint}${searchFields}`, {
+      const response = await fetch(`${endpoint}${searchFields}`);
 
-      });
-      console.log('response :', response);
+      // console.log('response:', response);
       if (!response.ok) {
-        console.log('response.status :', response.status);
+        console.log('response.status:', response.status);
         throw new Error(response.status);
-      } else {
-        const data = await response.json();
-        console.log('data :', data);
-        const localGames = data.data.map(x => {
-          const newVal = { ...x };
-          if (x.platform === null) {
-            newVal.platform = 1;
-          }
-          return newVal;
-        });
-        setGames(localGames);
-        setPageMeta(data);
       }
+
+      const data = await response.json();
+      console.log('data:', data);
+
+      // Ensure platform is set
+      const localGames = data.data.map(game => ({
+        ...game,
+        platform: game.platform ?? 1, // Uses nullish coalescing for clarity
+      }));
+
+      setGames(localGames);
+      setPageMeta(data);
     } catch (err) {
-      console.log(`Error: ${err}`);
-      toast.error(`loading error : ${err}`);
+      console.error(`Error: ${err}`);
+      toast.error(`Loading error: ${err}`);
     } finally {
       setIsLoading(false);
     }

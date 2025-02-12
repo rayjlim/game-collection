@@ -16,19 +16,62 @@ class GameController extends Controller
      */
     public function index(Request $request)
     {
+        if ($request->input('missedInstalled')) {
+            $query = Game::where('priority', '<', 50);
+            $query->where('priority', '>', -1);
+            $query->where('tags', 'NOT LIKE', '%installed%');
+            $games = $query->paginate(40);
+            return $games;
+        }
+        if ($request->input('missedToInstall')) {
+            $query = Game::where('priority', '<', 80);
+            $query->where('priority', '>=', 50);
+            $query->where('tags', 'NOT LIKE', '%to-install%');
+            $games = $query->paginate(40);
+            return $games;
+        }
+        if ($request->input('missedToDownload')) {
+            $query = Game::where('priority', '<', 200);
+            $query->where('priority', '>=', 80);
+            $query->where('tags', 'NOT LIKE', '%to-download%');
+            $games = $query->paginate(40);
+            return $games;
+        }
+
+        if ($request->input('missedTried')) {
+            $query = Game::where('priority', '<=', 300);
+            $query->where('priority', '>=', 200);
+            $query->where('tags', 'NOT LIKE', '%tried%');
+            $query->where('tags', 'NOT LIKE', '%finished%');
+            $query->where('tags', 'NOT LIKE', '%skip%');
+            $games = $query->paginate(40);
+            return $games;
+        }
+        if ($request->input('missedPriority')) {
+            $query = Game::where('priority', '<=', -1);
+            $query->where(function ($query) {
+                $query->where('tags', 'LIKE', '%to-download%')
+                    ->orWhere('tags', 'LIKE', '%to-install%')
+                    ->orWhere('tags', 'LIKE', '%installed%');
+            });
+            $games = $query->paginate(40);
+            return $games;
+        }
+
+
         $pageSize = is_numeric($request->input('per_page'))
             ? $request->input('per_page')
             : 20;  // DEFAULT page size
 
-        $searchTitle = '%' . $request->input('search_title') . '%';
-        $searchTitle = $request->input('starts_with')
-            ? $request->input('starts_with') . '%'
+        $searchTitle = '%' . $request->input('searchTitle') . '%';
+        $searchTitle = $request->input('startsWith')
+            ? $request->input('startsWith') . '%'
             : $searchTitle;
-        $sizeMinParam = $request->input('size_min');
+        $sizeMinParam = $request->input('sizeMin');
         $sizeMin = $sizeMinParam && is_numeric($sizeMinParam)
             ? $sizeMinParam
             : 0;
-        $sizeMaxParam = $request->input('size_max');
+        $sizeMaxParam = $request->input('sizeMax');
         $sizeMax = $sizeMaxParam && is_numeric($sizeMaxParam)
             ? $sizeMaxParam
             : 1000;
@@ -47,7 +90,7 @@ class GameController extends Controller
             ? '='
             : '!=';
 
-        $orderByParam = $request->input('order_by');
+        $orderByParam = $request->input('orderBy');
 
         switch ($orderByParam) {
             case 'title':
@@ -224,7 +267,19 @@ class GameController extends Controller
 
         // Step 2: Get unique items
         $uniqueItems = array_unique($allItems);
-        return json_encode($uniqueItems);
+
+        // Filter out empty values (optional)
+        $filteredArray = array_filter($uniqueItems, function ($value) {
+            return !empty($value);
+        });
+
+        // Get only the values and re-index them
+        $valuesArray = array_values($filteredArray);
+
+        // Convert the result back to a JSON array of strings
+        $jsonArrayOfStrings = json_encode($valuesArray, JSON_PRETTY_PRINT);
+
+        return $jsonArrayOfStrings;
     }
     /**
      * getTags
@@ -244,7 +299,17 @@ class GameController extends Controller
 
         // Step 2: Get unique items
         $uniqueItems = array_unique($allItems);
-        // print_r($uniqueItems);
-        return json_encode($uniqueItems);
+        // Filter out empty values (optional)
+        $filteredArray = array_filter($uniqueItems, function ($value) {
+            return !empty($value);
+        });
+
+        // Get only the values and re-index them
+        $valuesArray = array_values($filteredArray);
+
+        // Convert the result back to a JSON array of strings
+        $jsonArrayOfStrings = json_encode($valuesArray, JSON_PRETTY_PRINT);
+
+        return $jsonArrayOfStrings;
     }
 }
