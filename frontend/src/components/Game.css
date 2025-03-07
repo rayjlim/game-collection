@@ -1,54 +1,86 @@
+/* Layout */
 .game-list-row {
-    display: flex;
-    flex-direction: column;
-    background-color: white;
-    padding: 0.5rem;
-    margin: 0.25rem;
-    border: 1px solid rgb(196, 195, 195);
-    text-align: left;
-    width: 100%;
+  display: flex;
+  flex-direction: column;
+  width: 100%;
+  padding: 0.5rem;
+  margin: 0.25rem;
+  text-align: left;
+  background-color: white;
+  border: 1px solid rgb(196, 195, 195);
 }
 
+/* Size Indicators */
 .large-size {
-    border: 2px solid red;
+  border: 2px solid red;
 }
 
 .medium-size {
-    border: 2px solid orange;
+  border: 2px solid orange;
 }
+
+.game-size-large {
+  color: red;
+}
+
+/* Manual Section */
 .manual {
-    display: flex;
-    flex-direction: row;
-    flex-wrap: wrap;
+  display: flex;
+  flex-direction: row;
+  flex-wrap: wrap;
 }
 
 .manual > span {
-    margin: 0 0.5rem;
+  margin: 0 0.5rem;
 }
 
-.tagBtn {
-    background-color: transparent;
-    border-radius: 8px;
-
-}
+/* Notes Section */
 .notesField {
-    width: 100%;
-    max-width: 100%;
+  width: 100%;
+  max-width: 100%;
 }
-.notesField textarea{
-    width: 100%;
-    max-width: 100%;
+
+.notesField textarea {
+  width: 100%;
+  max-width: 100%;
+}
+
+/* Buttons and Interactive Elements */
+.tagBtn {
+  background-color: transparent;
+  border-radius: 8px;
 }
 
 .saveBtn {
-    background-color: rgb(96, 96, 244);
-    border-radius: 8px;
-    color: white;
+  background-color: rgb(96, 96, 244);
+  border-radius: 8px;
+  color: white;
 }
 
+/* Tags */
 .tag-chip {
-  margin: 0 .25rem;
+  margin: 0 0.25rem;
+  padding: 2px;
   border: 1px solid;
   border-radius: 10px;
-  padding: 2px;
+}
+
+/* Images */
+.game-image {
+  height: 100px;
+}
+
+.game-container {
+  display: flex;
+  flex-direction: row;
+  border: 1px solid lightgrey;
+  align-items: center;
+}
+
+.game-info {
+  margin: 0.2rem;
+}
+
+.edit-button {
+  margin: 0 0.2rem;
 }

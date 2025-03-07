@@ -1,7 +1,7 @@
 import React, { useRef, useEffect } from 'react';
 
 import useSearchGames from '../hooks/useSearchGames';
-import GameListItems from '../components/GameListItems';
+import Game from '../components/Game';
 import PaginationBar from '../components/PaginationBar';
 import PnForm from '../components/PnForm';
 import TagList from '../components/TagList';
@@ -150,9 +150,9 @@ const GamesListPage = () => {
         {`page: ${pageMeta.current_page} total: ${pageMeta.total}`}
       </div>
       {!isLoading && (
-        <GameListItems
-          games={games}
-        />
+        games.map(entry => (
+          <Game game={entry} key={entry.id} />
+        ))
       )}
       <PaginationBar pageCount={pageMeta.last_page} pageChange={handlePageClick} />
 

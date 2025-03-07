@@ -2,6 +2,7 @@ import React, { useRef } from 'react';
 import PropTypes from 'prop-types';
 import { parse, format } from 'date-fns';
 import useGame from '../hooks/useGame';
+import GameEditForm from './GameEditForm';
 import { LARGE_GAME_SIZE, MEDIUM_GAME_SIZE, TAG_SET } from '../constants';
 
 import './Game.css';
@@ -17,71 +18,80 @@ const Game = ({ game }) => {
     setIsEditing,
   } = useGame(game, formRef);
 
-  function externalLink(url) {
-    window.open(url, '_blank');
-  }
+  const getSizeClassName = () => {
+    if (current.size_calculated > LARGE_GAME_SIZE) return 'large-size';
+    if (current.size_calculated > MEDIUM_GAME_SIZE) return 'medium-size';
+    return 'small-size';
+  };
 
-  let sizeClassName = '';
-  switch (true) {
-    case current.size_calculated > LARGE_GAME_SIZE:
-      sizeClassName = 'large-size';
-      break;
-    case current.size_calculated > MEDIUM_GAME_SIZE:
-      sizeClassName = 'medium-size';
-      break;
-    default:
-      sizeClassName = 'small-size';
-  }
   const displayTags = current.tags.trim() ? current.tags.trim().split(/\s+/) : [];
+  const sizeClassName = getSizeClassName();
 
-  function getColorByLabel(label) {
+  const handleExternalLink = url => {
+    window.open(url, '_blank');
+  };
+
+  const getColorByLabel = label => {
     const tag = TAG_SET.find(item => item.label === label);
-    return tag ? tag.color : null; // Return null if label is not found
-  }
+    return tag?.color || null;
+  };
+
+  const renderGameInfo = () => (
+    <>
+      <div className="manual">
+        <span title="Priorities description...">
+          Priority:
+          {current.priority !== -1 && <span>{current.priority}</span>}
+          {`, Platform: ${current.platform} Status: ${current.status} Graphic style: ${current.graphic_style}, `}
+          Tags:
+          {displayTags.length}
+          {displayTags.length > 0 && displayTags.map(tag => (
+            <span
+              key={tag}
+              style={{ color: getColorByLabel(tag) }}
+              className="tag-chip"
+            >
+              {tag}
+            </span>
+          ))}
+          <br />
+          {`Thoughts: ${current.thoughts}`}
+        </span>
+      </div>
+      {current.playnite_title && (
+        <div>
+          {`pn: ${current.playnite_title}`}
+          {current.playnite_last && `, ${current.playnite_last}, ${current.playnite_added}, ${current.playnite_playtime}`}
+        </div>
+      )}
+    </>
+  );
 
   return (
-    <section
-      key={current.id}
-      style={{
-        display: 'flex',
-        flexDirection: 'row',
-        border: '1px solid lightgrey',
-        alignItems: 'center',
-      }}
-    >
+    <section key={current.id} className="game-container">
       <img
         src={current.image}
         alt="game poster"
         className="game-image"
-        onClick={() => externalLink(current.fg_url)}
+        onClick={() => handleExternalLink(current.fg_url)}
         aria-hidden="true"
       />
       <div className={`game-list-row ${sizeClassName}`}>
-        <div className="manual" style={{ margin: '.2rem' }}>
+        <div className="manual game-info">
           <button
             id="editBtn"
             onClick={() => setIsEditing(!isEditing)}
             type="button"
-            style={{ margin: '0 .2rem' }}
+            className="edit-button"
           >
             Edit
           </button>
           {current.title}
-          <span>
-            {`fg id: ${current.fg_id}`}
-          </span>
+          <span>{`fg id: ${current.fg_id}`}</span>
         </div>
         <div>
-          {current.genre
-            && (
-              <span>
-                {`Genre: ${current.genre}`}
-              </span>
-            )}
-
-          <span className={sizeClassName}>
-            {` Size: ${current.size_calculated}`}
-          </span>
+          {current.genre && <span>{`Genre: ${current.genre}`}</span>}
+          <span className={sizeClassName}>{` Size: ${current.size_calculated}`}</span>
           <span>
             {` Article date: (${format(
               parse(current.fg_article_date, 'yyyy-MM-dd', new Date()),
@@ -90,109 +100,30 @@ const Game = ({ game }) => {
           </span>
         </div>
         {isEditing ? (
-          <div className="manual">
-            <form ref={formRef} onSubmit={saveGame}>
-              <label
-                htmlFor="priority"
-                title="Priorities description
--1
-- 1 - 20  Top tier to play
-- 50 - 80  Next to install
-- 80 - 100  Next to download + install
-- 200  finished, installed, uninstalled,
-- 300  Errors / Issues
-- 400  There's a newer version"
-              >
-                Priority:
-                <input name="priority" defaultValue={current.priority} />
-              </label>
-
-              <label htmlFor="platform">
-                Platform:
-                <input name="platform" defaultValue={current.platform} />
-              </label>
-
-              <label htmlFor="status">
-                Status:
-                <input name="status" defaultValue={current.status} />
-              </label>
-
-              <label htmlFor="graphicStyle">
-                Graphic Style:
-                <input name="graphicStyle" defaultValue={current.graphic_style} />
-              </label>
-
-              <label htmlFor="tags">
-                Tags:
-                <input name="tags" defaultValue={current.tags} />
-                {TAG_SET.map(tag => (
-                  <button key={tag.label} type="button" onClick={() => addRemoveTag(tag.label)} className="tagBtn">
-                    {tag.label}
-                  </button>
-                ))}
-              </label>
-              <label htmlFor="thoughts" className="notesField">
-                Notes:
-                <a
-                  href="#a"
-                  title="progression types: level (Geometry Wars);
-              storyline: Pine, Lightbringer, In Nightmare;
-              Tech-tree (Craft the world, Old World, Patron)"
-                >
-                  I
-                </a>
-                <textarea name="thoughts" defaultValue={current.thoughts} />
-              </label>
-              <label htmlFor="playniteTitle" className="notesField">
-                Playnite Title:
-                <input name="playniteTitle" defaultValue={current.playnite_title} />
-              </label>
-              <button type="submit" className="saveBtn" id="saveBtn">Save</button>
-            </form>
-          </div>
-        ) : (
-          <>
-            <div className="manual">
-              <span title="Priorities description
--1
-- 1 - 20  Top tier to play
-- 50 - 80  Next to install
-- 80 - 100  Next to download + install
-- 200 finished, installed, uninstalled,
-- 300 Errors / Issues
-- 400 There's a newer version
-- 500 Not interested"
-              >
-                Priority:
-                {current.priority !== -1 && (
-                  <span>
-                    {current.priority}
-                  </span>
-                )}
-                {`, Platform: ${current.platform} Status: ${current.status} Graphic style: ${current.graphic_style}, `}
-                Tags:
-                {displayTags.length}
-                {displayTags.length && (
-                  displayTags.map(tag => <span key={tag} style={{ color: getColorByLabel(tag) }} className="tag-chip">{tag}</span>)
-                )}
-                <br />
-                {`Thoughts: ${current.thoughts}`}
-              </span>
-            </div>
-            {current.playnite_title !== '' && (
-              <div>
-                {`pn: ${current.playnite_title}`}
-                {current.playnite_last !== '' && `, ${current.playnite_last}, ${current.playnite_added}, ${current.playnite_playtime}`}
-              </div>
-            )}
-          </>
-        )}
+          <GameEditForm
+            formRef={formRef}
+            current={current}
+            saveGame={saveGame}
+            addRemoveTag={addRemoveTag}
+          />
+        ) : renderGameInfo()}
       </div>
     </section>
   );
 };
-export default Game;
 
 Game.propTypes = {
-  game: PropTypes.object.isRequired,
+  game: PropTypes.shape({
+    id: PropTypes.number.isRequired,
+    title: PropTypes.string.isRequired,
+    fg_id: PropTypes.number.isRequired,
+    fg_url: PropTypes.string.isRequired,
+    image: PropTypes.string.isRequired,
+    size_calculated: PropTypes.number.isRequired,
+    genre: PropTypes.string,
+    tags: PropTypes.string,
+    // ... add other specific prop types
+  }).isRequired,
 };
+
+export default Game;
