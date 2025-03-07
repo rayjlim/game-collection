@@ -46,6 +46,16 @@ const GamesListPage = () => {
     letters.push(String.fromCharCode(i));
   }
 
+  function genreChanged() {
+    const genreInput = searchForm.current.querySelector('input[name="genres"]');
+    genreInput.value = formGenresChoices.current.value;
+  }
+  function tagChanged() {
+    const tagInput = searchForm.current.querySelector('input[name="tags"]');
+    tagInput.value = formTagChoices.current.value;
+    const orderSelect = searchForm.current.querySelector('select[name="orderBy"]');
+    orderSelect.value = 'priority';
+  }
   return (
     <>
       <h1>Game Collection</h1>
@@ -64,10 +74,7 @@ const GamesListPage = () => {
           <input name="genres" type="text" />
           <select
             ref={formGenresChoices}
-            onChange={() => {
-              const genresInput = searchForm.current.querySelector('input[name="genres"]');
-              genresInput.value = formGenresChoices.current.value;
-            }}
+            onChange={genreChanged}
           >
             <option value="">-</option>
             {searchGenres.map(tag => (
@@ -80,12 +87,7 @@ const GamesListPage = () => {
           <input name="tags" type="text" />
           <select
             ref={formTagChoices}
-            onChange={() => {
-              const tagsInput = searchForm.current.querySelector('input[name="tags"]');
-              tagsInput.value = formTagChoices.current.value;
-              const orderSelect = searchForm.current.querySelector('select[name="orderBy"]');
-              orderSelect.value = 'priority';
-            }}
+            onChange={tagChanged}
           >
             <option value="">-</option>
             {searchTags.map(tag => (
