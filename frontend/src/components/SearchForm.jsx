@@ -5,7 +5,7 @@ import { TAG_SET } from '../constants';
 const searchTags = [{ label: '<untagged>' }, ...TAG_SET];
 const searchGenres = ['<untagged>', 'Adventure', 'Survival',
   'Puzzle', 'Managerial', 'RTS', 'Interactive movie', 'Shooter', 'Action'];
-const sizeLimits = [5, 15, 30, 50, 100];
+const sizeLimits = [5, 10, 25, 40, 60];
 
 const SearchForm = (
   {
