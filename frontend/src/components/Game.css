@@ -19,10 +19,6 @@
   border: 2px solid orange;
 }
 
-.game-size-large {
-  color: red;
-}
-
 /* Manual Section */
 .manual {
   display: flex;
