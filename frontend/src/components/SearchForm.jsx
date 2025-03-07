@@ -3,9 +3,9 @@ import PropTypes from 'prop-types';
 import { TAG_SET } from '../constants';
 
 const searchTags = [{ label: '<untagged>' }, ...TAG_SET];
-
 const searchGenres = ['<untagged>', 'Adventure', 'Survival',
   'Puzzle', 'Managerial', 'RTS', 'Interactive movie', 'Shooter', 'Action'];
+const sizeLimits = [5, 15, 30, 50, 100];
 
 const SearchForm = (
   {
@@ -75,7 +75,12 @@ const SearchForm = (
       </label>
       <label htmlFor="sizeMax" className="searchField">
         Size Max:
-        <input name="sizeMax" type="text" size="5" />
+        <select name="sizeMax">
+          <option value="">-</option>
+          {sizeLimits.map(size => (
+            <option value={size} key={size}>{size}</option>
+          ))}
+        </select>
       </label>
       <label htmlFor="orderBy" className="searchField">
         Order By:
