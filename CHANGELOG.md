@@ -2,6 +2,14 @@
 
 All notable changes to this project will be documented in this file. See [standard-version](https://github.com/conventional-changelog/standard-version) for commit guidelines.
 
+### [1.9.1](https://github.com/rayjlim/game-collection/compare/v1.9.0...v1.9.1) (2025-03-07)
+
+
+### Bug Fixes
+
+* [#7](https://github.com/rayjlim/game-collection/issues/7) max size drop down ([9a11380](https://github.com/rayjlim/game-collection/commit/9a113809f6aed7b203c620f319e5092cf1f6a12d))
+* [#7](https://github.com/rayjlim/game-collection/issues/7) max size drop down ([84d08e0](https://github.com/rayjlim/game-collection/commit/84d08e05496fdf4402132a38b51040dba9e01f18))
+
 ## [1.9.0](https://github.com/rayjlim/game-collection/compare/v1.8.1...v1.9.0) (2025-02-12)
 
 
