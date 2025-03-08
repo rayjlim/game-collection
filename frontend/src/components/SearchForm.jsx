@@ -29,6 +29,16 @@ const SearchForm = (
     const orderSelect = formRef.current.querySelector('select[name="orderBy"]');
     orderSelect.value = 'priority';
   }
+  function sizeMinChanged() {
+    const sizeMinInput = formRef.current.querySelector('input[name="sizeMin"]');
+    const sizeMinSelect = formRef.current.querySelector('select[name="sizeMinSelect"]');
+    sizeMinInput.value = sizeMinSelect.value;
+  }
+  function sizeMaxChanged() {
+    const sizeMaxInput = formRef.current.querySelector('input[name="sizeMax"]');
+    const sizeMaxSelect = formRef.current.querySelector('select[name="sizeMaxSelect"]');
+    sizeMaxInput.value = sizeMaxSelect.value;
+  }
 
   return (
     <form ref={formRef} onSubmit={onSubmit}>
@@ -72,10 +82,17 @@ const SearchForm = (
       <label htmlFor="sizeMin" className="searchField">
         Size Min:
         <input name="sizeMin" type="text" size="5" />
+        <select name="sizeMinSelect" onChange={sizeMinChanged}>
+          <option value="">-</option>
+          {sizeLimits.map(size => (
+            <option value={size} key={size}>{size}</option>
+          ))}
+        </select>
       </label>
       <label htmlFor="sizeMax" className="searchField">
         Size Max:
-        <select name="sizeMax">
+        <input name="sizeMax" type="text" size="5" />
+        <select name="sizeMaxSelect" onChange={sizeMaxChanged}>
           <option value="">-</option>
           {sizeLimits.map(size => (
             <option value={size} key={size}>{size}</option>

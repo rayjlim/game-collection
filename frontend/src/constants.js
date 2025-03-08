@@ -41,5 +41,17 @@ module.exports = {
       label: 'finished',
       color: 'grey',
     },
+    {
+      label: 'storyline',
+      color: 'purple',
+    },
+    {
+      label: 'techtree',
+      color: 'purple',
+    },
+    {
+      label: 'levels',
+      color: 'purple',
+    },
   ],
 };
