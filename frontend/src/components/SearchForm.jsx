@@ -6,136 +6,167 @@ const searchTags = [{ label: '<untagged>' }, ...TAG_SET];
 const searchGenres = ['<untagged>', 'Adventure', 'Survival',
   'Puzzle', 'Managerial', 'RTS', 'Interactive movie', 'Shooter', 'Action'];
 const sizeLimits = [5, 10, 25, 40, 60];
+const orderByOptions = [
+  { value: '', label: 'Updated At' },
+  { value: 'fg_article_date', label: 'Article Date' },
+  { value: 'updated-at-asc', label: 'Updated At - Asc' },
+  { value: 'priority', label: 'Priority' },
+  { value: 'title', label: 'Title' },
+];
 
-const SearchForm = (
-  {
-    onSubmit,
-    onClear,
-    onTitleChange,
-    formRef,
-  },
-) => {
+const FormField = ({
+  label,
+  name,
+  type = 'text',
+  size,
+  children,
+  onChange,
+}) => (
+  <label htmlFor={name} className="searchField">
+    {label}
+    :
+    <input name={name} type={type} size={size} onChange={onChange} />
+    {children}
+  </label>
+);
+
+const SelectWithInput = ({
+  name,
+  options,
+  onChange,
+  reference,
+}) => (
+  <select
+    name={`${name}Select`}
+    onChange={onChange}
+    ref={reference}
+  >
+    <option value="">-</option>
+    {options.map(opt => (
+      <option
+        value={typeof opt === 'object' ? opt.label : opt}
+        key={typeof opt === 'object' ? opt.label : opt}
+      >
+        {typeof opt === 'object' ? opt.label : opt}
+      </option>
+    ))}
+  </select>
+
+);
+
+const SearchForm = ({
+  onSubmit,
+  onClear,
+  onTitleChange,
+  formRef,
+}) => {
   const formTagChoices = useRef();
   const formGenresChoices = useRef();
 
-  function genreChanged() {
-    const genreInput = formRef.current.querySelector('input[name="genres"]');
-    genreInput.value = formGenresChoices.current.value;
-  }
+  const handleSelectChange = inputName => () => {
+    const input = formRef.current.querySelector(`input[name="${inputName}"]`);
+    const select = formRef.current.querySelector(`select[name="${inputName}Select"]`);
+    input.value = select.value;
 
-  function tagChanged() {
-    const tagInput = formRef.current.querySelector('input[name="tags"]');
-    tagInput.value = formTagChoices.current.value;
-    const orderSelect = formRef.current.querySelector('select[name="orderBy"]');
-    orderSelect.value = 'priority';
-  }
-  function sizeMinChanged() {
-    const sizeMinInput = formRef.current.querySelector('input[name="sizeMin"]');
-    const sizeMinSelect = formRef.current.querySelector('select[name="sizeMinSelect"]');
-    sizeMinInput.value = sizeMinSelect.value;
-  }
-  function sizeMaxChanged() {
-    const sizeMaxInput = formRef.current.querySelector('input[name="sizeMax"]');
-    const sizeMaxSelect = formRef.current.querySelector('select[name="sizeMaxSelect"]');
-    sizeMaxInput.value = sizeMaxSelect.value;
-  }
+    if (inputName === 'tags') {
+      const orderSelect = formRef.current.querySelector('select[name="orderBy"]');
+      orderSelect.value = 'priority';
+    }
+  };
 
   return (
     <form ref={formRef} onSubmit={onSubmit}>
       <input name="startsWith" type="hidden" />
-      <label htmlFor="searchTitle" className="searchField">
-        Search Title:
-        <input name="searchTitle" type="text" onChange={onTitleChange} />
-      </label>
+
+      <FormField label="Search Title" name="searchTitle" onChange={onTitleChange} />
+
       <button type="submit">Search</button>
       <button type="button" onClick={onClear}>Clear</button>
-      <label htmlFor="genres" className="searchField">
-        Genre:
-        <input name="genres" type="text" />
-        <select
-          ref={formGenresChoices}
-          onChange={genreChanged}
-        >
-          <option value="">-</option>
-          {searchGenres.map(tag => (
-            <option value={tag} key={tag}>{tag}</option>
-          ))}
-        </select>
-      </label>
-      <label htmlFor="tags" className="searchField">
-        Tag:
-        <input name="tags" type="text" />
-        <select
-          ref={formTagChoices}
-          onChange={tagChanged}
-        >
-          <option value="">-</option>
-          {searchTags.map(tag => (
-            <option value={tag.label} key={tag.label}>{tag.label}</option>
-          ))}
-        </select>
-      </label>
-      <label htmlFor="priority" className="searchField">
-        Priority:
-        <input name="priority" type="text" size="4" />
-      </label>
-      <label htmlFor="sizeMin" className="searchField">
-        Size Min:
-        <input name="sizeMin" type="text" size="5" />
-        <select name="sizeMinSelect" onChange={sizeMinChanged}>
-          <option value="">-</option>
-          {sizeLimits.map(size => (
-            <option value={size} key={size}>{size}</option>
-          ))}
-        </select>
-      </label>
-      <label htmlFor="sizeMax" className="searchField">
-        Size Max:
-        <input name="sizeMax" type="text" size="5" />
-        <select name="sizeMaxSelect" onChange={sizeMaxChanged}>
-          <option value="">-</option>
-          {sizeLimits.map(size => (
-            <option value={size} key={size}>{size}</option>
-          ))}
-        </select>
-      </label>
+
+      <FormField label="Genre" name="genres" size={5}>
+        <SelectWithInput
+          name="genres"
+          options={searchGenres}
+          onChange={handleSelectChange('genres')}
+          reference={formGenresChoices}
+        />
+      </FormField>
+
+      <FormField label="Tag" name="tags" size={15}>
+        <SelectWithInput
+          name="tags"
+          options={searchTags}
+          onChange={handleSelectChange('tags')}
+          reference={formTagChoices}
+        />
+      </FormField>
+
+      <FormField label="Priority" name="priority" size="3" />
+
+      <FormField label="Size Min" name="sizeMin" size={3}>
+        <SelectWithInput
+          name="sizeMin"
+          options={sizeLimits}
+          onChange={handleSelectChange('sizeMin')}
+          inputSize={5}
+        />
+      </FormField>
+
+      <FormField label="Size Max" name="sizeMax" size={3}>
+        <SelectWithInput
+          name="sizeMax"
+          options={sizeLimits}
+          onChange={handleSelectChange('sizeMax')}
+        />
+      </FormField>
+
       <label htmlFor="orderBy" className="searchField">
         Order By:
         <select name="orderBy">
-          <option value="">Updated At</option>
-          <option value="fg_article_date">Article Date</option>
-          <option value="updated-at-asc">Updated At -  Asc</option>
-          <option value="priority">Priority</option>
-          <option value="title">Title</option>
+          {orderByOptions.map(opt => (
+            <option value={opt.value} key={opt.value}>{opt.label}</option>
+          ))}
         </select>
       </label>
+
       <div>
         Missing:
-        <label htmlFor="missedInstalled" className="searchField" title="Priority<50 and not tagged I installed">
-          Installed:
-          <input name="missedInstalled" type="checkbox" />
-        </label>
-        <label htmlFor="missedToInstall" className="searchField" title="Priority 50 - 80 and not to-install">
-          To-Install:
-          <input name="missedToInstall" type="checkbox" />
-        </label>
-        <label htmlFor="missedToDownload" className="searchField" title="Priority 80 - 100 and not to-download">
-          To-Download:
-          <input name="missedToDownload" type="checkbox" />
-        </label>
-        <label htmlFor="missedTried" className="searchField" title="Priority 200 - 300 and not tried">
-          Tried:
-          <input name="missedTried" type="checkbox" />
-        </label>
-        <label htmlFor="missedPriority" className="searchField" title="tagged (to-download, to-install, installed) and no priority">
-          Priority:
-          <input name="missedPriority" type="checkbox" />
-        </label>
+        {['Installed', 'To-Install', 'To-Download', 'Tried', 'Priority'].map(type => (
+          <FormField
+            key={type}
+            label={type}
+            name={`missed${type}`}
+            type="checkbox"
+          />
+        ))}
       </div>
     </form>
   );
 };
 
+FormField.propTypes = {
+  label: PropTypes.string.isRequired,
+  name: PropTypes.string.isRequired,
+  type: PropTypes.string,
+  size: PropTypes.string,
+  children: PropTypes.node,
+  onChange: PropTypes.func,
+};
+FormField.defaultProps = {
+  type: 'text',
+  size: '',
+  children: null,
+  onChange: null,
+};
+SelectWithInput.propTypes = {
+  name: PropTypes.string.isRequired,
+  options: PropTypes.array.isRequired,
+  onChange: PropTypes.func.isRequired,
+  reference: PropTypes.object,
+};
+SelectWithInput.defaultProps = {
+  reference: null,
+};
 SearchForm.propTypes = {
   onSubmit: PropTypes.func.isRequired,
   onClear: PropTypes.func.isRequired,
