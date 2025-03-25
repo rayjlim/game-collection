@@ -36,10 +36,11 @@ export default function useSearchGames(searchForm) {
       const data = await response.json();
       console.log('data:', data);
 
-      // Ensure platform is set
+      // Ensure platform is set and size_calculated is a number
       const localGames = data.data.map(game => ({
         ...game,
-        platform: game.platform ?? 1, // Uses nullish coalescing for clarity
+        platform: game.platform ?? 1,
+        size_calculated: Number(game.size_calculated) || 0,
       }));
 
       setGames(localGames);
