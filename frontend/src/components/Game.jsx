@@ -3,13 +3,14 @@ import PropTypes from 'prop-types';
 import { parse, format } from 'date-fns';
 import useGame from '../hooks/useGame';
 import GameEditForm from './GameEditForm';
-import { LARGE_GAME_SIZE, MEDIUM_GAME_SIZE, TAG_SET } from '../constants';
-
+import { LARGE_GAME_SIZE, MEDIUM_GAME_SIZE } from '../constants';
+import { useContext } from 'react';
+import { TagsContext } from '../contexts/TagsContext';
 import './Game.css';
 
 const Game = ({ game }) => {
   const formRef = useRef();
-
+  const { tags } = useContext(TagsContext);
   const {
     saveGame,
     addRemoveTag,
@@ -32,7 +33,7 @@ const Game = ({ game }) => {
   };
 
   const getColorByLabel = label => {
-    const tag = TAG_SET.find(item => item.label === label);
+    const tag = tags.find(item => item.label === label);
     return tag?.color || null;
   };
 

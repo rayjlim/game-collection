@@ -2,6 +2,20 @@
 
 All notable changes to this project will be documented in this file. See [standard-version](https://github.com/conventional-changelog/standard-version) for commit guidelines.
 
+## [1.11.0](https://github.com/rayjlim/game-collection/compare/v1.10.0...v1.11.0) (2025-03-25)
+
+
+### Features
+
+* [#1](https://github.com/rayjlim/game-collection/issues/1) create context ([6fac640](https://github.com/rayjlim/game-collection/commit/6fac6402eb4fce2f535fdf7139d8f249a2c4d613))
+* [#1](https://github.com/rayjlim/game-collection/issues/1) move tag set to context and load from api ([cfe57d8](https://github.com/rayjlim/game-collection/commit/cfe57d8dc5a4d821590a58841d46d4f5672b5aa1))
+
+
+### Bug Fixes
+
+* clean up dist ([94ca625](https://github.com/rayjlim/game-collection/commit/94ca625ec389bed645c48e144aba65d022d76ce9))
+* size_calculated number conversion ([572a738](https://github.com/rayjlim/game-collection/commit/572a7386538ec0bd48f21936be5f5ed5b71c95a9))
+
 ## [1.10.0](https://github.com/rayjlim/game-collection/compare/v1.9.1...v1.10.0) (2025-03-25)
 
 

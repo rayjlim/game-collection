@@ -1,8 +1,9 @@
 import React, { useRef } from 'react';
 import PropTypes from 'prop-types';
-import { TAG_SET } from '../constants';
+import { useContext } from 'react';
+import { TagsContext } from '../contexts/TagsContext';
 
-const searchTags = [{ label: '<untagged>' }, ...TAG_SET];
+
 const searchGenres = ['<untagged>', 'Adventure', 'Survival',
   'Puzzle', 'Managerial', 'RTS', 'Interactive movie', 'Shooter', 'Action'];
 const sizeLimits = [5, 10, 25, 40, 60];
@@ -63,6 +64,8 @@ const SearchForm = ({
 }) => {
   const formTagChoices = useRef();
   const formGenresChoices = useRef();
+  const { tags } = useContext(TagsContext);
+  const searchTags = [{ label: '<untagged>' }, ...tags];
 
   const handleSelectChange = inputName => () => {
     const input = formRef.current.querySelector(`input[name="${inputName}"]`);
