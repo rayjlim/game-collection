@@ -69,7 +69,6 @@ export function TagsProvider({ children }) {
 
         // Merge API tags with existing tags, preserving colors
         const mergedTags = data.map(apiTag => {
-          console.log(apiTag);
           const existingTag = TAG_SET.find(tag => tag.label === apiTag);
           return {
             label: apiTag,
