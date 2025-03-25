@@ -37,11 +37,6 @@ jobs:
         cp "./.env.example" "./.env"
       working-directory: ./backend
 
-    - name: Build test helpers
-      run: |
-        ./vendor/bin/codecept build
-      working-directory: ./backend
-
     - name: Run test suite
       run: composer run-script test
       working-directory: ./backend
