@@ -26,7 +26,7 @@ const FormField = ({
   <label htmlFor={name} className="searchField">
     {label}
     :
-    <input name={name} type={type} size={`${size}`} onChange={onChange} />
+    <input id={name} name={name} type={type} size={`${size}`} onChange={onChange} />
     {children}
   </label>
 );
@@ -41,6 +41,7 @@ const SelectWithInput = ({
     name={`${name}Select`}
     onChange={onChange}
     ref={reference}
+    data-testid={`${name}Select`}
   >
     <option value="">-</option>
     {options.map(opt => (
@@ -52,7 +53,6 @@ const SelectWithInput = ({
       </option>
     ))}
   </select>
-
 );
 
 const SearchForm = ({
@@ -122,7 +122,7 @@ const SearchForm = ({
 
       <label htmlFor="orderBy" className="searchField">
         Order By:
-        <select name="orderBy">
+        <select id="orderBy" name="orderBy">
           {orderByOptions.map(opt => (
             <option value={opt.value} key={opt.value}>{opt.label}</option>
           ))}
@@ -131,14 +131,17 @@ const SearchForm = ({
 
       <div>
         Missing:
-        {['Installed', 'To-Install', 'To-Download', 'Tried', 'Priority'].map(type => (
-          <FormField
-            key={type}
-            label={type}
-            name={`missed${type}`}
-            type="checkbox"
-          />
-        ))}
+        {['Installed', 'To-Install', 'To-Download', 'Tried', 'Priority'].map(type => {
+          const fieldName = `missed${type}`;
+          return (
+            <FormField
+              key={type}
+              label={`-${type}`}
+              name={fieldName}
+              type="checkbox"
+            />
+          );
+        })}
       </div>
     </form>
   );

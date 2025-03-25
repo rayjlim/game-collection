@@ -16,8 +16,6 @@ export default function useSearchGames(searchForm) {
 
     const endpoint = `${REST_ENDPOINT}/api/games/?page=${page}`;
 
-    // Build query string dynamically, filtering out empty values
-
     const searchFields = Object.entries(formValues)
       // eslint-disable-next-line no-unused-vars
       .filter(([_, value]) => value.trim() !== '')

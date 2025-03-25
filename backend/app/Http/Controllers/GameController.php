@@ -23,14 +23,14 @@ class GameController extends Controller
             $games = $query->paginate(40);
             return $games;
         }
-        if ($request->input('missedToInstall')) {
+        if ($request->input('missedTo-Install')) {
             $query = Game::where('priority', '<', 80);
             $query->where('priority', '>=', 50);
             $query->where('tags', 'NOT LIKE', '%to-install%');
             $games = $query->paginate(40);
             return $games;
         }
-        if ($request->input('missedToDownload')) {
+        if ($request->input('missedTo-Download')) {
             $query = Game::where('priority', '<', 200);
             $query->where('priority', '>=', 80);
             $query->where('tags', 'NOT LIKE', '%to-download%');

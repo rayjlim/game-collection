@@ -2,6 +2,7 @@ module.exports = {
   env: {
     browser: true,
     es2021: true,
+    jest: true,
   },
   extends: ['plugin:react/recommended', 'airbnb'],
   parserOptions: {
@@ -20,11 +21,14 @@ module.exports = {
         unnamedComponents: 'arrow-function',
       },
     ],
+    'comma-dangle': false,
     'react/forbid-prop-types': 0,
     'arrow-parens': [2, 'as-needed'],
     'no-alert': 'off',
     'no-console': 'off',
-    'no-plusplus': 'off',
     'prefer-rest-params': 'off',
+    quotes: [2, 'single', { avoidEscape: true }],
+    'jsx-a11y/label-has-associated-control': 'off',
+    'no-plusplus': 'off',
   },
 };

@@ -2,6 +2,25 @@
 
 All notable changes to this project will be documented in this file. See [standard-version](https://github.com/conventional-changelog/standard-version) for commit guidelines.
 
+## [1.10.0](https://github.com/rayjlim/game-collection/compare/v1.9.1...v1.10.0) (2025-03-25)
+
+
+### Features
+
+* [#54](https://github.com/rayjlim/game-collection/issues/54) vite conversion ([7ac36c6](https://github.com/rayjlim/game-collection/commit/7ac36c6bb4ce741c19f61a865cbd77b1a5b91156))
+* [#55](https://github.com/rayjlim/game-collection/issues/55) add order by size ([aec6c4d](https://github.com/rayjlim/game-collection/commit/aec6c4dcd8006605a74cb2d82993835645010ed7))
+* add github action build files ([8bef96e](https://github.com/rayjlim/game-collection/commit/8bef96ebbb8f6908121c9c0fa6c5c9b4566d9a4a))
+* vitetest for all ([258d9f0](https://github.com/rayjlim/game-collection/commit/258d9f0f275957b146f0e8da509e94f4fc8b9e88))
+
+
+### Bug Fixes
+
+* add dropdowns for min/max size ([6e84019](https://github.com/rayjlim/game-collection/commit/6e84019e2bf1bc2a2841f47272bd432132d93782))
+* backend build action ([e466d0e](https://github.com/rayjlim/game-collection/commit/e466d0e757851c9236cff62245e8b6a7e6bdc91c))
+* rename build actions ([5954f66](https://github.com/rayjlim/game-collection/commit/5954f660ada265f8f528a99fcf855e9655559cc7))
+* rename build actions ([f6dd0d2](https://github.com/rayjlim/game-collection/commit/f6dd0d20f7a590f5971dd38994df069a6112a63e))
+* tests for github build actions ([1b774a1](https://github.com/rayjlim/game-collection/commit/1b774a1bac11c0cd1b46787a59be334736efb494))
+
 ### [1.9.1](https://github.com/rayjlim/game-collection/compare/v1.9.0...v1.9.1) (2025-03-07)
 
 
