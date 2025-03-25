@@ -1,0 +1,47 @@
+name: PHP Composer
+
+on:
+  push:
+    branches: [ master ]
+  pull_request:
+    branches: [ master ]
+
+jobs:
+  build:
+
+    runs-on: ubuntu-latest
+
+    steps:
+    - uses: actions/checkout@v2
+
+    - name: Validate composer.json and composer.lock
+      run: composer validate
+      working-directory: ./backend
+
+    - name: Cache Composer dependencies
+      uses: actions/cache@v3
+      with:
+        path: vendor
+        key: ${{ runner.os }}-composer-${{ hashFiles('**/composer.lock') }}
+        restore-keys: |
+          ${{ runner.os }}-composer-
+
+    - name: Install dependencies
+      run: composer install --prefer-dist --no-progress --ignore-platform-reqs
+      working-directory: ./backend
+
+    # Add a test script to composer.json, for instance: "test": "vendor/bin/phpunit"
+    # Docs: https://getcomposer.org/doc/articles/scripts.md
+    - name: Setup .env file
+      run: |
+        cp "./.env.example" "./.env"
+      working-directory: ./backend
+
+    - name: Build test helpers
+      run: |
+        ./vendor/bin/codecept build
+      working-directory: ./backend
+
+    - name: Run test suite
+      run: composer run-script test
+      working-directory: ./backend
