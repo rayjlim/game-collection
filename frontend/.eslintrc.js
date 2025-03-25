@@ -21,6 +21,7 @@ module.exports = {
         unnamedComponents: 'arrow-function',
       },
     ],
+    'comma-dangle': false,
     'react/forbid-prop-types': 0,
     'arrow-parens': [2, 'as-needed'],
     'no-alert': 'off',

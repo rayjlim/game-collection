@@ -50,6 +50,7 @@ const Game = ({ game }) => {
               key={tag}
               style={{ color: getColorByLabel(tag) }}
               className="tag-chip"
+              data-testid="game-tag"
             >
               {tag}
             </span>
@@ -68,7 +69,7 @@ const Game = ({ game }) => {
   );
 
   return (
-    <section key={current.id} className="game-container">
+    <section key={current.id} className="game-container" role="region">
       <img
         src={current.image}
         alt="game poster"

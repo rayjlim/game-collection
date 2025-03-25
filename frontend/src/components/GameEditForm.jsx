@@ -7,7 +7,7 @@ const GameEditForm = (
     formRef, current, saveGame, addRemoveTag,
   },
 ) => (
-  <form ref={formRef} onSubmit={saveGame}>
+  <form ref={formRef} onSubmit={saveGame} role="form">
     <label
       htmlFor="priority"
       title="Priorities description
@@ -20,27 +20,27 @@ const GameEditForm = (
 - 400  There's a newer version"
     >
       Priority:
-      <input name="priority" defaultValue={current.priority} />
+      <input id="priority" name="priority" defaultValue={current.priority} data-testid="priority-input"/>
     </label>
 
     <label htmlFor="platform">
       Platform:
-      <input name="platform" defaultValue={current.platform} />
+      <input id="platform" name="platform" defaultValue={current.platform} data-testid="platform-input" />
     </label>
 
     <label htmlFor="status">
       Status:
-      <input name="status" defaultValue={current.status} />
+      <input id="status" name="status" defaultValue={current.status} />
     </label>
 
     <label htmlFor="graphicStyle">
       Graphic Style:
-      <input name="graphicStyle" defaultValue={current.graphic_style} />
+      <input id="graphicStyle" name="graphicStyle" defaultValue={current.graphic_style} />
     </label>
 
     <label htmlFor="tags">
       Tags:
-      <input name="tags" defaultValue={current.tags} />
+      <input id="tags" name="tags" defaultValue={current.tags} />
       {TAG_SET.map(tag => (
         <button key={tag.label} type="button" onClick={() => addRemoveTag(tag.label)} className="tagBtn">
           {tag.label}
@@ -57,11 +57,11 @@ const GameEditForm = (
       >
         I
       </a>
-      <textarea name="thoughts" defaultValue={current.thoughts} />
+      <textarea id="thoughts" name="thoughts" defaultValue={current.thoughts} />
     </label>
     <label htmlFor="playniteTitle" className="notesField">
       Playnite Title:
-      <input name="playniteTitle" defaultValue={current.playnite_title} />
+      <input id="playniteTitle" name="playniteTitle" defaultValue={current.playnite_title} />
     </label>
     <button type="submit" className="saveBtn" id="saveBtn">Save</button>
   </form>
