@@ -12,6 +12,7 @@ const orderByOptions = [
   { value: 'updated-at-asc', label: 'Updated At - Asc' },
   { value: 'priority', label: 'Priority' },
   { value: 'title', label: 'Title' },
+  { value: 'size', label: 'size' },
 ];
 
 const FormField = ({
