@@ -25,7 +25,7 @@ const FormField = ({
   <label htmlFor={name} className="searchField">
     {label}
     :
-    <input name={name} type={type} size={size} onChange={onChange} />
+    <input name={name} type={type} size={`${size}`} onChange={onChange} />
     {children}
   </label>
 );
@@ -83,7 +83,7 @@ const SearchForm = ({
       <button type="submit">Search</button>
       <button type="button" onClick={onClear}>Clear</button>
 
-      <FormField label="Genre" name="genres" size={5}>
+      <FormField label="Genre" name="genres" size="5">
         <SelectWithInput
           name="genres"
           options={searchGenres}
@@ -92,7 +92,7 @@ const SearchForm = ({
         />
       </FormField>
 
-      <FormField label="Tag" name="tags" size={15}>
+      <FormField label="Tag" name="tags" size="15">
         <SelectWithInput
           name="tags"
           options={searchTags}
@@ -103,16 +103,15 @@ const SearchForm = ({
 
       <FormField label="Priority" name="priority" size="3" />
 
-      <FormField label="Size Min" name="sizeMin" size={3}>
+      <FormField label="Size Min" name="sizeMin" size="3">
         <SelectWithInput
           name="sizeMin"
           options={sizeLimits}
           onChange={handleSelectChange('sizeMin')}
-          inputSize={5}
         />
       </FormField>
 
-      <FormField label="Size Max" name="sizeMax" size={3}>
+      <FormField label="Size Max" name="sizeMax" size="3">
         <SelectWithInput
           name="sizeMax"
           options={sizeLimits}
