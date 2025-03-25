@@ -1,6 +1,6 @@
 # game-collection
 
-[![Backend](https://github.com/rayjlim/game-collection/actions/workflows/php.yml/badge.svg)](https://github.com/rayjlim/game-collection/actions/workflows/backend.yml)
+[![Backend](https://github.com/rayjlim/game-collection/actions/workflows/backend.yml/badge.svg)](https://github.com/rayjlim/game-collection/actions/workflows/backend.yml)
 [![Frontend](https://github.com/rayjlim/game-collection/actions/workflows/node.js.yml/badge.svg)](https://github.com/rayjlim/game-collection/actions/workflows/node.js.yml)
 
 to run the phpunit with npm watch, I had to  
