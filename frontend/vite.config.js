@@ -3,6 +3,7 @@ import react from '@vitejs/plugin-react';
 import compression from 'vite-plugin-compression';
 
 export default defineConfig({
+  base: '/game-collection/',
   plugins: [react(), compression()],
   test: {
     globals: true,

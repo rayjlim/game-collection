@@ -16,3 +16,4 @@ frontend/.htaccess.production
 lumen-*.log
 
 .codegpt
+frontend/dist/*
