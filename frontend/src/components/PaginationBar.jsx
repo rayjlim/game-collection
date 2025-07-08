@@ -18,9 +18,9 @@ const PaginationBar = ({ pageCount, pageChange }) => (
       onPageChange={pageChange}
       pageRangeDisplayed={4}
       pageCount={pageCount}
-      previousLabel="< previous"
+      previousLabel="<"
       breakLabel="..."
-      nextLabel="next >"
+      nextLabel=">"
       renderOnZeroPageCount={null}
     />
   </nav>
