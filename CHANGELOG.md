@@ -2,6 +2,13 @@
 
 All notable changes to this project will be documented in this file. See [standard-version](https://github.com/conventional-changelog/standard-version) for commit guidelines.
 
+### [1.11.1](https://github.com/rayjlim/game-collection/compare/v1.11.0...v1.11.1) (2025-07-08)
+
+
+### Bug Fixes
+
+* optimize publish script ([ecaed39](https://github.com/rayjlim/game-collection/commit/ecaed39a4e726f2994a20d581b1ddb84addc8cf3))
+
 ## [1.11.0](https://github.com/rayjlim/game-collection/compare/v1.10.0...v1.11.0) (2025-03-25)
 
 
