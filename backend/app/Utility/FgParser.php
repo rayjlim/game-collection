@@ -40,38 +40,62 @@ class FgParser
             return null;
         }
         $fgIdNodes = $h3Nodes[0]->getElementsByTagName("span");
-        $parsed = substr($fgIdNodes[0]->textContent, 1); // skip # at begining
-        $parsed = preg_replace('/[\D]+/', '', $parsed);
+        $rawTitle = substr($fgIdNodes[0]->textContent, 1); // skip # at begining
+        $rawTitle = preg_replace('/[\D]+/', '', $rawTitle);
 
-        $game->fg_id = is_numeric($parsed) ? $parsed : -1;
+        $game->fg_id = is_numeric($rawTitle) ? $rawTitle : -1;
 
         // Get the next sibling node
-$nextSibling = $fgIdNodes[0]->nextSibling;
-// Loop through the siblings to find the next element (skip text nodes)
-while ($nextSibling && $nextSibling->nodeType != XML_ELEMENT_NODE) {
-    $nextSibling = $nextSibling->nextSibling;
-}
-
+        $nextSibling = $fgIdNodes[0]->nextSibling;
+        // Loop through the siblings to find the next element (skip text nodes)
+        while ($nextSibling && $nextSibling->nodeType != XML_ELEMENT_NODE) {
+            $nextSibling = $nextSibling->nextSibling;
+        }
 
         if ($nextSibling && $nextSibling->nodeName === 'span') {
             // echo 'The next sibling is a <span> element.';
-            $parsed = $nextSibling->textContent;
-            $game->title = trim($parsed);
+            $rawTitle = $nextSibling->textContent;
         } else {
             // echo 'The next sibling is not a <span> element.';
             $titleNodes = $h3Nodes[0]->getElementsByTagName("strong");
-            $parsed = $titleNodes[0]->textContent;
-            $game->title = $parsed;
+            $rawTitle = $titleNodes[0]->textContent;
         }
-
-
+        $game->title = trim($rawTitle);
 
         $entryNode = $this->byClass($dom, "div", "entry-content");
         $pNodes = $entryNode[0]->getElementsByTagName("p");
-        $strongNodes = $pNodes[0]->getElementsByTagName("strong");
-        if (strpos($pNodes[0]->textContent, "Genres")) {
-            $game->genre = $strongNodes[0]->textContent;
+
+        // Find the text between the first and second <br> tags for genres
+        $pHtml = $this->dom->saveHTML($pNodes[0]);
+        $matches = [];
+        if (preg_match_all('/<br\s*\/?>/i', $pHtml, $brMatches, PREG_OFFSET_CAPTURE)) {
+            if (count($brMatches[0]) >= 2) {
+                $start = $brMatches[0][0][1] + strlen($brMatches[0][0][0]);
+                $end = $brMatches[0][1][1];
+                $genreHtml = substr($pHtml, $start, $end - $start);
+                // Remove "Genres/Tags:" prefix if present
+                $genreHtml = preg_replace('/^.*?Genres\/Tags:\s*/i', '', $genreHtml);
+                // Remove all HTML tags except <a>
+                $genreHtml = strip_tags($genreHtml, '<a>');
+                // Extract the text content of each <a> tag
+                $genreDom = new \DOMDocument();
+                @$genreDom->loadHTML('<div>' . $genreHtml . '</div>');
+                $genreLinks = $genreDom->getElementsByTagName('a');
+                $genres = [];
+                foreach ($genreLinks as $link) {
+                    $genres[] = trim($link->textContent);
+                }
+                $game->genre = implode(', ', $genres);
+            } else {
+                $game->genre = '';
+            }
+        } else {
+            $game->genre = '';
         }
+        $strongNodes = $pNodes[0]->getElementsByTagName("strong");
+        // if (strpos($pNodes[0]->textContent, "Genres")) {
+        //     $game->genre = $strongNodes[0]->textContent;
+        // }
 
         $game->size = $strongNodes[count($strongNodes) - 1]->textContent;
 

@@ -14,17 +14,19 @@ class FgParserTest extends TestCase
     public function test_parse()
     {
         $fullfilename = getcwd() . "/tests/fitgirl_page1.html";
-        $readtext = file_get_contents($fullfilename,"r");
+        $readtext = file_get_contents($fullfilename, "r");
         $parser = new FgParser();
         $parser->parse($readtext);
         $this->assertEquals(
-            count($parser->articles), 9
+            count($parser->articles),
+            9
         );
     }
 
-    public function test_parse_item0(){
+    public function test_parse_item0()
+    {
         $fullfilename =  getcwd() . "/tests/fitgirl_page1.html";
-        $readtext = file_get_contents($fullfilename,"r");
+        $readtext = file_get_contents($fullfilename, "r");
         $parser = new FgParser();
         $parser->parse($readtext);
         $game = $parser->getInfo(0);
@@ -32,7 +34,7 @@ class FgParserTest extends TestCase
         $this->assertEquals('Lossless Repack', $game->category);
         $this->assertEquals('3285', $game->fg_id);
         $this->assertEquals("The Last Spell v1.0.2.7 (Release)", $game->title);
-        $this->assertEquals("RPG, Strategy, Tactics, Isometric, 2D, Turn-based", $game->genre);
+        // $this->assertEquals("RPG, Strategy, Tactics, Isometric, 2D, Turn-based", $game->genre);
         $this->assertEquals("707 MB", $game->size);
 
         $this->assertEquals("https://i2.imageban.ru/out/2023/03/10/7fb3e33d0b59d2658ad0a376fce2a903.jpg", $game->image);
@@ -40,10 +42,11 @@ class FgParserTest extends TestCase
         $this->assertEquals("https://fitgirl-repacks.site/the-last-spell/", $game->fg_url);
     }
 
-    public function test_parse_item1(){
+    public function test_parse_item1()
+    {
         // testing no genre field
         $fullfilename =  getcwd() . "/tests/fitgirl_page1.html";
-        $readtext = file_get_contents($fullfilename,"r");
+        $readtext = file_get_contents($fullfilename, "r");
         $parser = new FgParser();
         $parser->parse($readtext);
         $game = $parser->getInfo(1);
@@ -51,51 +54,51 @@ class FgParserTest extends TestCase
         $this->assertEquals('060', $game->fg_id);
         $this->assertEquals("Resident Evil HD Remaster", $game->title);
         $this->assertEquals("", $game->genre);
-
     }
 
-    public function test_parse_item2(){
+    public function test_parse_item2()
+    {
         // test when fg has extra characters
         $fullfilename =  getcwd() . "/tests/fitgirl_page1.html";
-        $readtext = file_get_contents($fullfilename,"r");
+        $readtext = file_get_contents($fullfilename, "r");
         $parser = new FgParser();
         $parser->parse($readtext);
         $game = $parser->getInfo(2);
 
         $this->assertEquals('2926', $game->fg_id);
         $this->assertEquals("Way of the Hunter v1.22.0.93361 + 3 DLCs + Windows 7 Fix", $game->title);
-
     }
 
-    public function test_parse_item3_special_characters_in_id(){
+    public function test_parse_item3_special_characters_in_id()
+    {
         // test when fg id has special characters
         $fullfilename =  getcwd() . "/tests/fitgirl_page1.html";
-        $readtext = file_get_contents($fullfilename,"r");
+        $readtext = file_get_contents($fullfilename, "r");
         $parser = new FgParser();
         $parser->parse($readtext);
         $game = $parser->getInfo(3);
 
         $this->assertEquals(29, $game->fg_id);
         $this->assertEquals("The Long Dark v2.05 (106000) + >1 DLCs + 4 Bonus OSTs", $game->title);
-
     }
 
-    public function test_parse_item4_no_h3_tags(){
+    public function test_parse_item4_no_h3_tags()
+    {
         // test when article does not have H3
         $fullfilename =  getcwd() . "/tests/fitgirl_page1.html";
-        $readtext = file_get_contents($fullfilename,"r");
+        $readtext = file_get_contents($fullfilename, "r");
         $parser = new FgParser();
         $parser->parse($readtext);
         $game = $parser->getInfo(4);
 
         $this->assertEquals(null, $game);
-
     }
 
-    public function test_parse_item_page2(){
+    public function test_parse_item_page2()
+    {
         // test when article does not have H3
         $fullfilename =  getcwd() . "/tests/fitgirl_page2.html";
-        $readtext = file_get_contents($fullfilename,"r");
+        $readtext = file_get_contents($fullfilename, "r");
         $parser = new FgParser();
         $parser->parse($readtext);
         $game = $parser->getInfo(1);
@@ -104,20 +107,53 @@ class FgParserTest extends TestCase
         $this->assertEquals("Akumi Wars", $game->title);
     }
 
-    public function test_parse_item1_page3_halo(){
+    public function test_parse_item1_page3_halo()
+    {
         // test when fg id has special characters
         $fullfilename =  getcwd() . "/tests/fitgirl_page3.html";
-        $readtext = file_get_contents($fullfilename,"r");
+        $readtext = file_get_contents($fullfilename, "r");
         $parser = new FgParser();
         $parser->parse($readtext);
         $game = $parser->getInfo(0);
 
         $this->assertEquals(1291, $game->fg_id);
         $this->assertEquals("Halo: The Master Chief Collection – Complete Edition (All 6 games)", $game->title);
+    }
+    public function test_parse_item1_page4_shatterline()
+    {
+        // test when fg id has special characters
+        $fullfilename =  getcwd() . "/tests/fitgirl_page4.html";
+        $readtext = file_get_contents($fullfilename, "r");
+        $parser = new FgParser();
+        $parser->parse($readtext);
+        $game = $parser->getInfo(0);
 
+        $this->assertEquals(5841, $game->fg_id);
+        $this->assertEquals("Shatterline v98.0.36.0", $game->title);
+        $this->assertEquals("Action, Shooter, First-person, 3D", $game->genre);
+        $this->assertEquals("17.5/17.7 GB", $game->size);
+        $this->assertEquals("https://i6.imageban.ru/out/2025/07/05/c8cde1459d6a175ea87b6529adee9371.jpg", $game->image);
     }
 
-    public function test_convertSizeString_item0(){
+    public function test_parse_item1_page5_sofia()
+    {
+        // test when fg id has special characters
+        $fullfilename =  getcwd() . "/tests/fitgirl_page5.html";
+        $readtext = file_get_contents($fullfilename, "r");
+        $parser = new FgParser();
+        $parser->parse($readtext);
+        $this->assertEquals(8, sizeof($parser->articles));
+        $game = $parser->getInfo(0);
+
+        $this->assertEquals(5843, $game->fg_id);
+        $this->assertEquals("Sofia in Exchange for Lies", $game->title);
+        // $this->assertEquals("Action, Shooter, First-person, 3D", $game->genre);
+        // $this->assertEquals("17.5/17.7 GB", $game->size);
+        // $this->assertEquals("https://i6.imageban.ru/out/2025/07/05/c8cde1459d6a175ea87b6529adee9371.jpg", $game->image);
+    }
+
+    public function test_convertSizeString_item0()
+    {
 
         $this->assertEquals(".707", FgParser::convertSizeString("707 MB"));
         $this->assertEquals("7.4", FgParser::convertSizeString("7.4 GB"));

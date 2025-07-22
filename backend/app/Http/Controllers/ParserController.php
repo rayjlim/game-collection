@@ -70,7 +70,7 @@ class ParserController extends Controller
                 $original_time = strtotime($game->fg_article_date);
                 $game->fg_article_date = date('Y-m-d', $parsed_article_time);
 
-                if ($parsed_article_time > $original_time) {
+                if ($parsed_article_time >= $original_time) {
                     Log::info('====------Saved-----=====');
                     $game->save();
                 } else {
