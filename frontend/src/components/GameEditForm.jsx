@@ -1,4 +1,4 @@
-import React from 'react';
+import React, { useState, useRef } from 'react';
 import PropTypes from 'prop-types';
 import { useContext } from 'react';
 import { TagsContext } from '../contexts/TagsContext';
@@ -9,8 +9,24 @@ const GameEditForm = (
   },
 ) => {
   const { tags } = useContext(TagsContext);
+  const [priorityError, setPriorityError] = useState(false);
+  const priorityInputRef = useRef(null);
   return (
-    <form ref={formRef} onSubmit={saveGame} role="form">
+    <form ref={formRef} onSubmit={(e) => {
+      e.preventDefault();
+      const priorityValue = e.target.priority.value;
+      const isInteger = /^-?\d+$/.test(priorityValue);
+      
+      if (!isInteger) {
+        setPriorityError(true);
+        priorityInputRef.current.focus();
+        priorityInputRef.current.scrollIntoView({ behavior: 'smooth', block: 'center' });
+        return;
+      }
+      
+      setPriorityError(false);
+      saveGame(e);
+    }} role="form">
       <label
         htmlFor="priority"
         title="Priorities description
@@ -23,7 +39,19 @@ const GameEditForm = (
 - 400  There's a newer version"
       >
         Priority:
-        <input id="priority" name="priority" defaultValue={current.priority} data-testid="priority-input" />
+        <input
+          ref={priorityInputRef}
+          id="priority"
+          name="priority"
+          defaultValue={current.priority}
+          data-testid="priority-input"
+          className={priorityError ? 'error' : ''}
+          onChange={(e) => {
+            const value = e.target.value;
+            const isInteger = /^-?\d+$/.test(value);
+            setPriorityError(!isInteger);
+          }}
+        />
       </label>
 
       <label htmlFor="platform">

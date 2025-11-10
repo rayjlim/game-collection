@@ -74,7 +74,7 @@ describe('GameEditForm', () => {
     expect(saveButton).toHaveAttribute('id', 'saveBtn');
   });
 
-  it.skip('updates input values when props change', () => {
+  it('updates input values when props change', () => {
     const { rerender } = render(<GameEditForm {...mockProps} />);
 
     const updatedProps = {
@@ -88,8 +88,7 @@ describe('GameEditForm', () => {
 
     rerender(<GameEditForm {...updatedProps} />);
 
-
-    expect(screen.getByTestId('priority-input')).toHaveValue('75');
-    expect(screen.getByTestId('platform-input')).toHaveValue('PS5');
+    expect(screen.getByRole('textbox', { name: /priority/i })).toHaveValue('75');
+    expect(screen.getByRole('textbox', { name: /platform/i })).toHaveValue('PS5');
   });
 });

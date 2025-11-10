@@ -80,3 +80,15 @@
 .edit-button {
   margin: 0 0.2rem;
 }
+
+/* Error styling for form validation */
+input.error {
+  border: 2px solid red;
+  background-color: #ffe6e6;
+}
+
+input.error:focus {
+  outline: none;
+  border-color: #ff0000;
+  box-shadow: 0 0 5px rgba(255, 0, 0, 0.5);
+}
