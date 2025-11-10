@@ -1,4 +1,4 @@
-import React, { useRef } from 'react';
+import React, { useRef, useState } from 'react';
 import PropTypes from 'prop-types';
 import { parse, format } from 'date-fns';
 import useGame from '../hooks/useGame';
@@ -11,6 +11,7 @@ import './Game.css';
 const Game = ({ game }) => {
   const formRef = useRef();
   const { tags } = useContext(TagsContext);
+  const [imageLoaded, setImageLoaded] = useState(false);
   const {
     saveGame,
     addRemoveTag,
@@ -72,11 +73,13 @@ const Game = ({ game }) => {
   return (
     <section key={current.id} className="game-container" role="region">
       <img
-        src={current.image}
+        src={imageLoaded ? current.image : 'assets/placeholder-game.png'}
         alt="game poster"
         className="game-image"
         onClick={() => handleExternalLink(current.fg_url)}
         aria-hidden="true"
+        onLoad={() => setImageLoaded(true)}
+        onError={() => setImageLoaded(false)}
       />
       <div className={`game-list-row ${sizeClassName}`}>
         <div className="manual game-info">
