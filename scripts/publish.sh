@@ -22,7 +22,7 @@ print_usage() {
 
 build_backend() {
   echo "Building backend..."
-  cd ../backend
+  cd ./backend
   mkdir -p ./build/
   rsync -ravz --exclude-from '../scripts/exclude-from-prep.txt' --delete . ./build/
   rsync -avz "public/.htaccess" ./build/public/.htaccess
