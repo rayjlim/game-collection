@@ -2,6 +2,14 @@
 
 All notable changes to this project will be documented in this file. See [standard-version](https://github.com/conventional-changelog/standard-version) for commit guidelines.
 
+## [1.12.0](https://github.com/rayjlim/game-collection/compare/v1.11.1...v1.12.0) (2025-11-10)
+
+
+### Features
+
+* **frontend:** ✨ [#65](https://github.com/rayjlim/game-collection/issues/65) add image loading state and placeholder ([346b16b](https://github.com/rayjlim/game-collection/commit/346b16bd4acd43ae0d0953d7ae19979626b957a2))
+* **parser:** 🐛 improve genre parsing and update tests ([6363eb5](https://github.com/rayjlim/game-collection/commit/6363eb5213da8754f1fff8dbf8dc102175244759))
+
 ### [1.11.1](https://github.com/rayjlim/game-collection/compare/v1.11.0...v1.11.1) (2025-07-08)
 
 
